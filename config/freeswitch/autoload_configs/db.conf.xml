@@ -1,0 +1,5 @@
+<configuration name="db.conf" description="LIMIT DB Configuration">
+  <settings>
+    <param name="odbc-dsn" value="pgsql://hostaddr=127.0.0.1 dbname=freeswitch user=postgres password='postgres' options='-c client_min_messages=NOTICE'"/>
+  </settings>
+</configuration>

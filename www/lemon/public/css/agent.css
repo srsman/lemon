@@ -1,0 +1,102 @@
+body {
+    padding-top: 0px;
+    background-color: #F0F0F0;
+}
+
+.navbar-toggle {
+    display: none;
+}
+
+/* Reset the container */
+.container {
+    width: 1000px;
+    max-width: none !important;
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+    min-height: 800px;
+    background-color: #fefefe;
+}
+
+/* Reset the tables */
+.table thead tr th {
+    text-align: center;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.table tbody tr td {
+    text-align: center;
+    border-top: 1px solid #EEEEEE;
+}
+
+a:hover {
+    text-decoration:none;
+}
+
+.box {
+    border-radius: 6px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    background-color: #fcfcfc;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+li a .text-success {
+    color: #7CC17D;
+}
+
+li a .text-warning {
+    color: #F1BE68;
+}
+
+li a .text-danger {
+    color: #EA6461;
+}
+
+.jumbotron {
+    background-color:#FBFBFB;
+    -moz-box-shadow: 1px 2px 3px #cccccc;
+    -webkit-box-shadow: 1px 2px 3px #cccccc;
+    box-shadow: 1px 2px 3px #cccccc;
+}
+
+.navbar {
+    /* background-image: linear-gradient(#f5f5f5, #f5f5f5 60%, #eeeeee); */
+    /* border-bottom: 1px solid #E4E4E4; */
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.navbar-default {
+    background-color: #f5f5f5;
+    border-width: 1px;
+    border-color: #f5f5f5;
+}
+
+.navbar-default .navbar-text {
+    color: #555555;
+    font-size: 14px;
+}
+
+.work-box {
+    margin-top: 35px;
+}
+
+.pull-right {
+    margin-right: 12px;
+}
+
+.icon {
+    margin-bottom: -26px;
+    width: 35px;
+    height: 35px;
+    -moz-box-shadow: 1px 2px 3px #eeeeee;
+    -webkit-box-shadow: 1px 2px 3px #eeeeee;
+    box-shadow: 1px 2px 3px #eeeeee;
+}

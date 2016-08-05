@@ -1,0 +1,58 @@
+.input-sm {
+    height: 28px;
+    padding: 3px 8px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+hr {
+    margin-top:10px;margin-bottom:10px;
+}
+
+th {
+    text-align:center;
+}
+
+td {
+    text-align:center;
+}
+
+.table .td-id {
+    text-align:left;padding-left:15px;
+}
+
+audio {
+    width: 240px;
+}
+
+#start, #end {
+    width: 145px;
+    letter-spacing: -1px;
+}
+
+.query {
+    padding: 10px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+}
+
+#sort {
+    width: 95px;
+    font-weight: bold;
+    background-color: #fcfcfc;
+    border-bottom-style: none;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none
+}
+
+#query {
+    width: 55px;
+    height: 27px;
+    padding: 3px 10px;
+    font-size: 12px;
+    line-height: 14px;
+    border-radius: 3px;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>添加订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+        background-color: #f5f5f5;
+      }
+      .table>tbody>tr>td {
+        line-height: 25px;
+      }
+
+      .table .td-name, .table .td-product, .table .td-phone, .table .td-telephone, .table .td-number, .table .td-address, .table .td-remark, .table .td-submit-help {
+        width:80px;
+      }
+      
+      .table .sub-box td {
+        padding-top: 25px;
+      }
+
+      td input {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body style="min-width:650px;padding:0px">
+    <div style="margin-top:15px;margin-left:15px;padding:0px">
+      <form action="/agent/add" method="post">
+        <table class="table table-condensed table-striped" style="width:650px">
+          <tr>
+            <td class="td-name">客户姓名:</td>
+            <td class="td-name-input">
+              <input type="text" class="form-control input-sm" name="name" placeholder="请输入客户姓名" required>
+            </td>
+            <td class="td-product">商品名称:</td>
+            <td class="td-product-input" colspan="2">
+              <select class="form-control input-sm" name="product">
+                <?php
+                   if ($products != null) {
+                     foreach ($products as $product) {
+                       echo '<option value="',$product['id'],'">',$product['name'],'(',$product['price'],')','</option>';
+                     }
+                   } else {
+                     echo '<option disabled>没有可用商品</option>';
+                   }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-phone">手机号码:</td>
+            <td class="td-phone-input">
+              <input id="phone" type="text" class="form-control input-sm" name="phone" placeholder="请输入客户手机号码" required>
+            </td>
+            <td class="td-number">商品数量:</td>
+            <td class="td-number-input"><input type="number" class="form-control input-sm" name="number" value="1" min="1"></td>
+          </tr>
+          <tr>
+            <td class="td-telephone">固定电话:</td>
+            <td class="td-telephone-input"><input type="text" class="form-control input-sm" name="telephone"></td>
+            <td class="td-telephone-help" colspan="2">温馨提示：固定电话为可选项,注意号码前加区号</td>
+          </tr>
+          <tr>
+            <td class="td-address">收货地址:</td>
+            <td colspan="3">
+              <input id="address" type="text" class="form-control input-sm" name="address" placeholder="请输入收货地址" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-remark">备注信息:</td>
+            <td colspan="3"><input type="text" class="form-control input-sm" name="comment"></td>
+          </tr>
+          <div>
+            <table class="table" style="width:650px">
+            <tbody>
+              <tr class="sub-box">
+                <td class="td-submit-help">温馨提示: </td>
+                <td class="text-left text-muted">请确认客户信息无误后再提交订单</td>
+                <td class="text-right" colspan="2" style="margin-top:10px"><button type="submit" class="btn btn-success">提交订单</button></td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        </table>
+      </form>
+    </div>
+    <div id="container"></div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript" src="/js/agent.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        getCalled();
+      });
+
+      var map = new BMap.Map("container");
+      var ac = new BMap.Autocomplete({
+        "input" : "address",
+        "location" : map
+      });
+    </script>
+  </body>
+</html>

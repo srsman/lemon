@@ -1,0 +1,21 @@
+[Unit]
+Description=Network Connectivity
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-enp4s0.device
+After=sys-subsystem-net-devices-enp4s0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/ip link set dev enp4s0 up
+ExecStart=/usr/sbin/ip addr add 192.168.1.100/24 dev enp4s0
+ExecStart=/usr/sbin/ip route add default via 192.168.1.1
+
+#ExecStart=/usr/sbin/ip route add 192.168.2.0/24 via 192.168.200.1
+
+ExecStop=/usr/sbin/ip addr flush dev enp4s0
+ExecStop=/usr/sbin/ip link set dev enp4s0 down
+
+[Install]
+WantedBy=multi-user.target

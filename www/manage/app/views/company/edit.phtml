@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心运营平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/company.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">运营平台</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/company">企业管理</a></li>
+            <li><a href="/task">任务监控</a></li>
+            <li><a href="/user">账户管理</a></li>
+            <li><a href="/agent">座席管理</a></li>
+            <li><a href="/sound">语音管理</a></li>
+            <li><a href="/service">服务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 系统管理
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/gateway">中继网关</a></li>
+                <li><a href="/status">服务器状态</a></li>
+                <li><a href="/logs">日志记录</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo $user->name; ?></a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div>
+        <ol class="breadcrumb">
+          <li>当前位置:</li>
+          <li>企业管理</li>
+          <li class="active">创建企业</li>
+        </ol>
+      </div>
+      <div>
+        <form class="form-horizontal" action="/company/update/<?php echo $company['id']; ?>" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-4">企业编号: </label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control input-sm" value="<?php echo $company['id']; ?>" disabled>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">企业公司名称</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">企业名称: </label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control input-sm" name="name" value="<?php echo $company['name']; ?>" placeholder="请输入企业名称" required>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">企业公司名称</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">VIP 级别: </label>
+            <div class="col-sm-3">
+              <select class="form-control input-sm" name="level" required>
+                <option value="1"<?php if ($company['level'] == 1) {echo ' selected="selected"';}?>>I</option>
+                <option value="2"<?php if ($company['level'] == 2) {echo ' selected="selected"';}?>>II</option>
+                <option value="3"<?php if ($company['level'] == 3) {echo ' selected="selected"';}?>>III</option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">企业账户级别</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-xs-4 col-sm-4 col-md-4">线路并发: </label>
+            <div class="col-xs-3 col-sm-3 col-md-3">
+              <input id="callerid" type="number" class="form-control input-sm" name="concurrent" value="<?php echo $company['concurrent']; ?>" min="1" max="500" placeholder="请输入中继最大并发数" required>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3">
+              <p class="help-block">中继线路最大并发数</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">计费帐号: </label>
+            <div class="col-sm-3">
+              <input id="phone" type="text" class="form-control input-sm" name="billing" value="<?php echo $company['billing']; ?>" placeholder="请输入计费帐号" required>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">公司账户计费帐号</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">其他设置: </label>
+            <div class="checkbox col-sm-3">
+              <label>
+                <input type="checkbox" name="sound_check"<?php if ($company['sound_check'] == 1) {echo ' checked="checked"';} ?>> 语音审核
+              </label>
+              <label style="margin-left:15px">
+                <input type="checkbox" name="data_filter"<?php if ($company['data_filter'] == 1) {echo ' checked="checked"';} ?>> 数据过滤服务
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">语音审核，号码数据过滤</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <hr class="nav-hr" style="width:97%">
+            <div class="form-submit col-sm-3 col-sm-offset-4">
+              <button type="submit" class="btn btn-success" style="width:80px">保存修改</button>
+              <a class="btn btn-default" href="/company" style="margin-left:20px;width:80px">取 消</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+        $(this).addClass('open');
+      }).mouseout(function() {
+        $(this).removeClass('open');
+      });
+    </script>
+  </body>
+</html>

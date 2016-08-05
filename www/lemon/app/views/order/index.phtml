@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/order.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/status">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo mb_substr($user->name, 0, 8, 'utf-8') ?></a></li>
+            <li><a id="account" href="/account">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div class="query">
+        <form class="form-inline" action="/order/query" role="form">
+          <div class="form-group">
+            <select id="sort" class="input-sm" name="sort">
+              <option value="1">下单时间</option>
+              <option value="2">审核时间</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input id="start" type="text" class="form-control input-sm" name="start" value="<?php echo $where['start']; ?>">
+          </div>
+          <div class="form-group">
+            <label> - </label>
+            <input id="end" type="text" class="form-control input-sm" name="end" value="<?php echo $where['end']; ?>">
+          </div>
+          <div class="form-group" style="margin-left:6px">
+            <label>状 态: </label>
+            <select class="form-control input-sm" name="status" style="width:85px">
+              <option value="0">全 部</option>
+              <option value="1">待审核</option>
+              <option value="2">已通过</option>
+              <option value="3">不通过</option>
+              <option value="4">已发货</option>
+              <option value="5">待 &nbsp&nbsp定</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-left:6px">
+            <label>座 席: </label>
+            <select class="form-control input-sm" name="creator" style="width:85px">
+              <option value="0">全 部</option>
+              <?php
+                 if ($agents != null) {
+                   foreach ($agents as $agent) {
+                     echo '<option value="',$agent['uid'],'">',$agent['name'],'</option>',"\n";
+                   }
+                 }
+              ?>
+            </select>
+          </div>
+          <div class="form-group" style="margin-left:6px">
+            <label>订单编号: </label>
+            <input type="text" class="form-control input-sm" name="id" style="width:80px;color:#666;font-size:13px;font-weight:bold" value="">
+          </div>
+          <div class="form-group" style="margin-left:25px">
+            <input id="export" type="checkbox" name="export" data-toggle="tooltip" data-placement="top" title="导出到 Excel 文件" >
+          </div>
+          <button id="query" type="submit" class="btn btn-success btn-sm pull-right">查 询</button>
+        </form>
+      </div>
+      <div>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="td-id">订单编号</th>
+              <th>客户姓名</th>
+              <th>手机号码</th>
+              <th>商品名称(价格)</th>
+              <th>数 量</th>
+              <th>订单状态</th>
+              <th>下单座席</th>
+              <th>质检员</th>
+              <th>下单时间</th>
+              <th>审核时间</th>
+              <th>订单编辑</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+          $(this).addClass('open');
+      }).mouseout(function() {
+          $(this).removeClass('open');
+      });
+
+      // datetimepicker
+      $('#start').datetimepicker({
+          format: 'yyyy-mm-dd hh:ii:ss',
+          language: 'zh-CN',
+          autoclose: true
+      });
+
+      $('#end').datetimepicker({
+          format: 'yyyy-mm-dd hh:ii:ss',
+          language: 'zh-CN',
+          autoclose: true
+      });
+
+      $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="main row">
+        <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+          <h3>呼叫中心运营管理平台</h3>
+          <p class="text-muted">Operations Management Platform</p>
+          <img src="img/bg.png" width="311" height="220">
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-xs-offset-1 col-sm-offset-1 col-md-offset-1">
+          <form class="form-horizontal" action="/login" method="post">
+            <div class="input-group box-account">
+              <span class="input-group-addon">帐 号:</span>
+              <input type="text" class="form-control input-default" name="username" placeholder="请输入帐号" required="required" autofocus>
+            </div>
+            <div class="input-group box-password">
+              <span class="input-group-addon">密 码:</span>
+              <input type="password" class="form-control input-default" name="password" placeholder="请输入密码" required="required">
+            </div>
+            <div class="form-group box-help">
+              <?php
+                 if (isset($info)) {
+                     echo '<p class="text-center text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> ',$info,'</p>';
+                 } else {
+                     echo '<p class="text-center"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 如果忘记了密码请联系运营商技术人员</p>';
+                 }
+              ?>
+            </div>
+            <div class="form-group box-login-btn">
+              <div class="col-sm-12">
+                <button type="submit" class="btn btn-success btn-lg btn-block">登&nbsp&nbsp&nbsp录</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="footer text-center">
+        <span class="text-muted">Copyright (C) <?php echo date('Y'); ?> jatogroup Inc, Power by lemon 4.0</span>
+      </div>
+    </div>
+  </body>
+</html>

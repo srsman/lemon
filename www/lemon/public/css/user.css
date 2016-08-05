@@ -1,0 +1,23 @@
+th {
+    text-align:center;
+}
+td {
+    text-align:center;
+}
+
+.table .td-icon {
+    padding-left:15px;
+    width:45px;
+}
+
+.td-icon img {
+    width: 19px;
+    height: 19px;
+}
+
+.table .td-account {
+    width:100px;
+}
+.td-edit {
+    width:85px;
+}

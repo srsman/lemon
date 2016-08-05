@@ -1,0 +1,17 @@
+﻿/* CSS for jQuery More plugin v2.0.0. */
+.more-hidden {
+	display: none;
+}
+.more-link {
+	margin-left: 1em;
+	padding: 0.125em;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	border-radius: 0.25em;
+	-moz-border-radius: 0.25em;
+	-webkit-border-radius: 0.25em;
+	text-decoration: none;
+}
+.more-link img {
+	border: none;
+}

@@ -1,0 +1,24 @@
+th {
+    text-align:center;
+}
+
+td {
+    text-align:center;
+}
+
+.table .td-icon {
+    width:50px;
+}
+
+.table .td-edit {
+    text-align:right;
+    padding-right:20px;
+}
+
+audio {
+    width: 240px;
+}
+
+.breadcrumb>.pull-right:before {
+    content:"";
+}

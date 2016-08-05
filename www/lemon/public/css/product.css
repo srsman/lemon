@@ -1,0 +1,7 @@
+.table th, .table td {
+    text-align: center;
+}
+
+.breadcrumb>.pull-right:before {
+    content: "";
+}

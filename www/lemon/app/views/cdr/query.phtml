@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/cdr.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/status">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo mb_substr($user->name, 0, 8, 'utf-8') ?></a></li>
+            <li><a id="account" href="/account">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div class="query">
+        <form class="form-inline" action="/cdr/query" method="get" role="form">
+          <input type="hidden" name="action" value="query">
+          <div class="form-group">
+            <label>日 期: </label>
+            <input id="start" type="text" class="form-control input-sm" style="width:160px" name="start" value="<?php echo $where['start']; ?>">
+          </div>
+          <div class="form-group">
+            <label> - </label>
+            <input id="end" type="text" class="form-control input-sm" style="width:160px" name="end" value="<?php echo $where['end']; ?>">
+          </div>
+          <div class="form-group" style="margin-left:10px">
+            <label>通话时长 </label>
+            <select class="form-control input-sm" name="billsec" style="width:85px">
+              <option value="0"<?php if($where['billsec'] == 0) {echo 'selected="selected"';}?>>0分钟</option>
+              <option value="60"<?php if($where['billsec'] == 60) {echo 'selected="selected"';}?>>1分钟</option>
+              <option value="180"<?php if($where['billsec'] == 180) {echo 'selected="selected"';}?>>3分钟</option>
+              <option value="300"<?php if($where['billsec'] == 300) {echo 'selected="selected"';}?>>5分钟</option>
+              <option value="900"<?php if($where['billsec'] == 900) {echo 'selected="selected"';}?>>15分钟</option>
+              <option value="1800"<?php if($where['billsec'] == 1800) {echo 'selected="selected"';}?>>30分钟</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-left:8px">
+            <label>主叫: </label>
+            <input id="caller" type="text" class="form-control input-sm" name="caller" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['caller_id_number'])) {echo $where['caller_id_number'];}?>">
+          </div>
+          <div class="form-group" style="margin-left:8px">
+            <label>被叫: </label>
+            <input id="called" type="text" class="form-control input-sm" name="called" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['destination_number'])) {echo $where['destination_number'];}?>">
+          </div>
+          <button id="query" type="submit" class="btn btn-success btn-sm pull-right">查 询</button>
+        </form>
+      </div>
+      <div>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th>记录编号</th>
+              <th>主叫号码</th>
+              <th>被叫号码</th>
+              <th>通话时长</th>
+              <th>通话开始时间</th>
+              <th>录音试听</th>
+              <th>录音下载</th>
+            </tr>
+          </thead>
+          <tbody id="list" class="text-muted">
+          <?php
+          if ($cdrs != null) {
+            foreach ($cdrs as $cdr) {
+              echo '<tr>',"\n";
+              echo '<td>',$cdr['id'],'</td>',"\n";
+              echo '<td>',$cdr['caller_id_number'],'</td>',"\n";
+              echo '<td>',$cdr['destination_number'],'</td>',"\n";
+              echo '<td><span class="label label-default">',gmstrftime('%H:%M:%S', $cdr['billsec']),'</span></td>',"\n";
+              echo '<td>',substr($cdr['start_stamp'], 0, 19),'</td>',"\n";
+              echo '<td><a href="javascript:;" style="color:#337ab7" onClick="show(',"'",date('Y/m/d/', strtotime($cdr['start_stamp'])),$cdr['bleg_uuid'],'.wav',"'",')"><span class="glyphicon glyphicon-headphones"></span> 试 听</a></td>',"\n";
+              echo '<td><a href="/record/',date('Y/m/d/', strtotime($cdr['start_stamp'])),$cdr['bleg_uuid'],'.wav" style="color:#555555">本地下载</a></td>',"\n";
+              echo '</tr>',"\n";
+            }
+          }
+          ?>
+          </tbody>
+        </table>
+      </div>
+      <?php
+      if ($cdrs != null && count($cdrs) >= 45) {
+        echo '<div id="loading">',"\n";
+        echo '<nav>',"\n";
+        echo '<ul class="pager">',"\n";
+        echo '<li><a href="javascript:;" onClick="loadMore()">点击这里，加载更多 &middot;&middot;&middot;</a></li>',"\n";
+        echo '</ul>',"\n";
+        echo '</nav>',"\n";
+        echo '</div>',"\n";
+      }
+      ?>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/cdr.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+        $(this).addClass('open');
+      }).mouseout(function() {
+        $(this).removeClass('open');
+      });
+
+      // datetimepicker
+      $('#start').datetimepicker({
+          format: 'yyyy-mm-dd hh:ii:ss',
+          language: 'zh-CN',
+          autoclose: true
+      });
+
+      $('#end').datetimepicker({
+          format: 'yyyy-mm-dd hh:ii:ss',
+          language: 'zh-CN',
+          autoclose: true
+      });
+
+      $("#query").click(function(){
+        var index = layer.load(2, {shade: [0.7,'#fff'], time: 10000});
+      });
+
+      <?php
+      if (is_array($cdrs) && count($cdrs) > 0) {
+         echo 'last = ',$cdrs[count($cdrs) - 1]['id'],';';
+      } else {
+         echo 'last = 0;';
+      }
+      ?>
+
+    </script>
+  </body>
+</html>

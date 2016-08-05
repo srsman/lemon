@@ -1,0 +1,14 @@
+[Unit]
+Description=the pgbouncer service
+After=syslog.target network.target
+After=postgresql.service
+
+[Service]
+User=postgres
+Group=postgres
+LimitNOFILE=102400
+ExecStart=/usr/local/bin/pgbouncer /etc/pgbouncer.ini
+ExecStop=/usr/bin/kill $MAINPID
+
+[Install]
+WantedBy=multi-user.target

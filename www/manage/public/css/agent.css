@@ -1,0 +1,43 @@
+.breadcrumb > .pull-right:before {
+    content:"";
+}
+
+.pull-right .btn {
+    margin-right: -4px;
+}
+
+th, td {
+    text-align: center;
+}
+
+.breadcrumb .dropdown-menu {
+    min-width: 80px;
+}
+
+.cpy-list {
+    margin-left: 80px;
+}
+
+.breadcrumb > .cpy-list:before {
+    content:"公司名称:";
+    color: #888888;
+}
+
+.cpy-list select {
+    width: 200px;
+    font-weight: bold;
+    background-color: #fcfcfc;
+    border-bottom-style: none;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.cpy-help {
+    color: #999999;
+}
+
+.breadcrumb > .cpy-help:before {
+    content:"\*";
+    color: #aaaaaa;
+}

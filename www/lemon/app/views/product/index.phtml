@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/product.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/status">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo mb_substr($user->name, 0, 8, 'UTF-8'); ?></a></li>
+            <li><a id="account" href="/account">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div>
+        <ol class="breadcrumb">
+          <li class="active">当前位置:</li>
+          <li><a href="#">项目管理</a></li>
+          <li class="active">商品管理</li>
+          <li class="pull-right" data-toggle="modal" data-target="#myModal"><a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span> 添加商品</a></li>
+        </ol>
+      </div>
+      <div>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="td-icon">#</th>
+              <th>商品编号</th>
+              <th>商品名称</th>
+              <th>商品价格</th>
+              <th>商品库存</th>
+              <th>商品备注</th>
+              <th>上架时间</th>
+              <th>删除操作</th>
+              <th>商品编辑</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+          <?php
+          if (is_array($products)) {
+            foreach ($products as $product) {
+              echo '<tr>',"\n";
+              echo '<td class="td-icon"><span class="glyphicon glyphicon-phone"></span> </td>',"\n";
+              echo '<td>',$product['id'],'</td>',"\n";
+              echo '<td class="text-muted">',mb_substr($product['name'], 0, 8, 'UTF-8'),'</td>',"\n";
+              echo '<td><span class="glyphicon glyphicon-yen" style="color:#777777;font-size:10px"></span> <money style="color:red">',$product['price'],'</money></td>',"\n";
+              echo '<td>',$product['inventory'],'</td>',"\n";
+              echo '<td>',mb_substr($product['remark'], 0, 15, 'UTF-8'),'</td>',"\n";
+              echo '<td>',$product['create_time'],'</td>',"\n";
+              echo '<td><a class="btn btn-default btn-xs" href="javascript:;" onClick="deleteProduct(',$product['id'],')"><span class="glyphicon glyphicon-trash"></span> 删 除</a></td>',"\n";
+              echo '<td class="td-edit"><a class="btn btn-default btn-xs" href="product/edit/',$product['id'],'"><span class="glyphicon glyphicon-edit"></span> 编 辑</a></td>',"\n";
+              echo '</tr>',"\n";
+            }
+          }
+          ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">添加新商品</h4>
+          </div>
+          <form class="form-horizontal" action="product/create" method="post">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-1">商品名称: </label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control input-sm" style="font-weight:bold" name="name" minlength="1" placeholder="请输入商品名称" required>
+                </div>
+                <div class="col-sm-4">
+                  <p class="help-block">* 商品名称</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-1">商品价格: </label>
+                <div class="col-sm-5">
+                  <input type="number" class="form-control input-sm" name="price" min="1" required>
+                </div>
+                <div class="col-sm-4">
+                  <p class="help-block">* 商品价格</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-1">商品库存: </label>
+                <div class="col-sm-5">
+                  <input type="number" class="form-control input-sm" name="inventory" value="999" min="1" placeholder="请输入商品库存数量" required>
+                </div>
+                <div class="col-sm-4">
+                  <p class="help-block">* 商品库存数量</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-1">商品备注: </label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control input-sm" name="remark" placeholder="请输入商品备注信息">
+                </div>
+                <div class="col-sm-4">
+                  <p class="help-block">* 商品备注信息</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-1">其他选项:  </label>
+                <div class="checkbox col-sm-5">
+                  <label>
+                    <input type="checkbox"> 标记为新品上市
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <center>
+                <input type="hidden" name="action" value="new">
+                <button type="submit" class="btn btn-primary">确认创建</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+              </center>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>    
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/product.js"></script>
+    <script type="text/javascript">
+        $('li.dropdown').mouseover(function() {   
+            $(this).addClass('open');
+        }).mouseout(function() {
+            $(this).removeClass('open');
+        }); 
+
+        $(function () {
+            $('#account').popover('show');
+        });
+    </script>
+  </body>
+</html>

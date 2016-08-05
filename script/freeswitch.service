@@ -1,0 +1,15 @@
+[Unit]
+Description=FreeSWITCH
+After=syslog.target network.target
+After=postgresql.service
+
+[Service]
+User=apache
+LimitNOFILE=102400
+WorkingDirectory=/var/freeswitch
+ExecStart=/usr/local/freeswitch/bin/freeswitch -nc -nf -nonat
+ExecStop=/usr/local/freeswitch/bin/freeswitch -stop
+ExecReload=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

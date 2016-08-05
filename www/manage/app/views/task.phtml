@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心运营平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/task.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">运营平台</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/company">企业管理</a></li>
+            <li class="active"><a href="/task">任务监控</a></li>
+            <li><a href="/user">账户管理</a></li>
+            <li><a href="/agent">座席管理</a></li>
+            <li><a href="/sound">语音管理</a></li>
+            <li><a href="/service">服务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 系统管理
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/gateway">中继网关</a></li>
+                <li><a href="/status">服务器状态</a></li>
+                <li><a href="/logs">日志记录</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo $user->name; ?></a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div>
+        <ol class="breadcrumb">
+          <li>当前位置:</li>
+          <li>任务管理</li>
+          <li class="active">所有任务</li>
+          <li class="pull-right" style="margin-right: 12px"><a class="btn btn-default btn-xs" href="/task"><span class="glyphicon glyphicon-repeat"></span> 刷 新</a></li>
+        </ol>
+      </div>
+      <div>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>任务ID</th>
+              <th>任务名称</th>
+              <th>所属公司</th>
+              <th>任务类型</th>
+              <th>已呼/总数</th>
+              <th>数据统计信息</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+          <?php
+          if ($tasks != null && count($tasks) > 0) {
+            foreach ($tasks as $task) {
+              echo '<tr>',"\n";
+              echo '<td><span class="glyphicon glyphicon-tasks"></span></td>',"\n";
+              echo '<td>',$task['id'],'</td>',"\n";
+              if ($task['id'] > 0) {
+                echo '<td><a href="javascript:;" onClick="show(',$task['company_id'],')">',$task['name'],'</a></td>',"\n";
+              } else {
+                echo '<td><a href="javascript:;">',$task['name'],'</a></td>',"\n";
+              }
+              echo '<td>',$task['company_name'],'</td>',"\n";
+              echo '<td>',$task['type'],'</td>',"\n";
+              echo '<td>',$task['total'] - $task['remainder'],'/',$task['total'],'</td>',"\n";
+              echo '<td>',"\n";
+              echo '  接通数: <span class="label label-default">',$task['answer'],'</span>',"\n";
+              echo '  接通率: <span class="label label-info">',$task['answer_rate'],'%</span>',"\n";
+              echo '  转接数: <span class="label label-success">',$task['complete'],'</span>',"\n";
+              echo '  转接率: <span class="label label-primary">',$task['complete_rate'],'%</span>',"\n";
+              echo '</td>',"\n";
+              echo '</tr>',"\n";
+            }
+          }
+          ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/task.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+        $(this).addClass('open');
+      }).mouseout(function() {
+        $(this).removeClass('open');
+      });
+
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      });
+    </script>
+  </body>
+</html>

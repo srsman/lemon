@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <style type="text/css">
+      body {
+        background-color: ##efefef;
+      }
+      .container {
+        width: 575px;
+      }
+
+      .jumbotron {
+        padding: 25px;
+        background-color: #FFF;
+        border-width: 3px;
+        border-color: #eeeeee;
+        border-style: solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron text-center" style="width: 575px;margin-top: 195px">
+        <div class="alert alert-default alert-dismissible fade in" role="alert">
+          <h4 style="color:#D25250">Oops! 访问出错了</h4>
+          <p style="font-size: 14px;line-height:28px">你当前没有权限访问这些页面。 具体原因请联系你的管理员。<br>如果需要返回刚才之前的页面请点击下面的返回按钮...</p>
+          <p>
+            <button type="button" class="btn btn-success" onclick="history.go(-1)">返 回</button>
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  </body>
+</html>

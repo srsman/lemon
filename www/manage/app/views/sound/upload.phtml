@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心运营平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/sound.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">运营平台</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/company">企业管理</a></li>
+            <li><a href="/task">任务监控</a></li>
+            <li><a href="/user">账户管理</a></li>
+            <li><a href="/agent">座席管理</a></li>
+            <li class="active"><a href="/sound">语音管理</a></li>
+            <li><a href="/service">服务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 系统管理
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/gateway">中继网关</a></li>
+                <li><a href="/status">服务器状态</a></li>
+                <li><a href="/logs">日志记录</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo $user->name; ?></a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container box">
+      <div>
+        <ol class="breadcrumb">
+          <li>当前位置:</li>
+          <li>语音管理</li>
+          <li class="active">上传语音</li>
+        </ol>
+      </div>
+      <div>
+        <form class="form-horizontal" action="/sound/upload" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="control-label col-sm-4">语音名称: </label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control input-sm" name="name" placeholder="请输入语音名称" required>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">语音名称，不可为空</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">语音文件: </label>
+            <div class="col-sm-3">
+              <input type="file" class="form-control input-sm" name="file" accept="audio/x-wav" required>
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">语音文件，不可为空</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">备注信息: </label>
+            <div class="col-sm-3">
+              <input id="password" type="text" class="form-control input-sm" name="remark" placeholder="请输入语音说明信息">
+            </div>
+            <div class="col-sm-3">
+              <p class="help-block">语音备注信息，可选</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">语音格式: </label>
+            <div class="col-sm-4">
+              <p class="form-control-static text-muted">单声道，16位，8000Hz，wav格式的音频文件</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <hr class="nav-hr" style="width:97%">
+            <div class="form-submit col-sm-3 col-sm-offset-4">
+              <button type="submit" class="btn btn-success" style="width:80px">开始上传</button>
+              <a class="btn btn-default" href="/sound" style="margin-left:20px;width:80px">取 消</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+        $(this).addClass('open');
+      }).mouseout(function() {
+        $(this).removeClass('open');
+      });
+    </script>
+  </body>
+</html>

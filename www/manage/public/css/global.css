@@ -1,0 +1,101 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #EFEFEF;
+    font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+body, .navbar-fixed-top, .navbar-fixed-bottom {
+    min-width: 1000px;
+}
+
+.navbar-toggle {
+    display: none;
+}
+
+/* Reset the container */
+.container {
+    width: 1000px;
+    max-width: none !important;
+}
+
+/* Reset the tables */
+.table thead tr th {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.table tbody tr td {
+    border-top: 1px solid #EEEEEE;
+}
+
+.text-muted {
+    color: #555;
+}
+
+.label {
+    padding: 3px 6px;
+    display: inline-block;
+    border-radius: 35px;
+}
+
+a:hover {
+    text-decoration:none;
+}
+
+.box {
+    border-radius: 6px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    background-color: #fcfcfc;
+}
+
+.label-default {
+    background-color: rgba(119, 119, 119, 0.75);
+}
+
+.label-primary {
+    background-color: rgba(51, 122, 183, 0.75);
+}
+
+.label-success {
+    background-color: rgba(92, 184, 92, 0.75);
+}
+
+.label-info {
+    background-color: rgba(91, 192, 222, 0.75);
+}
+
+.label-warning {
+    background-color: rgba(240, 173, 78, 0.75);
+}
+
+.label-danger {
+    background-color: rgba(217, 83, 79, 0.75);
+}
+
+.label-info {
+    background-color: rgba(91, 192, 222, 0.75);
+}
+
+.label-stress {
+    background-color: rgba(53, 52, 52, 0.75);
+}
+
+.form-inline .form-control {
+    border-color: #dddddd;
+}
+
+.form-group .control-label {
+    margin-left: 15px;
+    padding-bottom: 0px;
+    background-color: #fcfcfc;
+    background-color: #fcfcfc;
+    border: 1px solid #fcfcfc;
+    border: 0px solid #fcfcfc;
+}
+
+.form-submit > button {
+    margin-left: 15px;
+}

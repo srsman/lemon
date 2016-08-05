@@ -1,0 +1,36 @@
+th {
+    text-align:center;
+}
+
+td {
+    text-align:center;
+}
+
+.table .td-icon {
+    padding-left:15px;
+    width:45px;
+}
+
+.td-icon img {
+    width: 19px;
+    height: 19px;
+}
+
+.table .td-dev {
+    text-align:right;
+    padding-right:20px;
+}
+
+condensed>tfoot>tr>.td-edit {
+    text-align:right;
+    padding-right:55px;
+}
+
+.text-success {
+    font-weight:bold;
+}
+
+.breadcrumb>li+li:before {
+    content:no-open-quote;
+    padding: 0 5px;color:#cccccc;
+}

@@ -1,0 +1,53 @@
+hr {
+    margin-top:10px;margin-bottom:10px;
+}
+
+th {
+    text-align:center;
+}
+
+td {
+    text-align:center;
+}
+
+audio {
+      width: 240px;
+}
+
+.table .td-id {
+    text-align:left;padding-left:15px;
+}
+
+.table .td-icon {
+    padding-left:15px;
+    width:45px;
+}
+
+td img {
+    width: 19px;
+    height: 19px;
+}
+
+.input-sm {
+    height: 28px;
+    padding: 3px 8px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+.query {
+    padding: 10px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+}
+
+#query {
+    width: 55px;
+    height: 27px;
+    padding: 3px 10px;
+    font-size: 12px;
+    line-height: 14px;
+    border-radius: 3px;
+}

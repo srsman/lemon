@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/agent.css">
+  </head>
+  <body>
+    <div class="container work-box">
+      <div class="jumbotron" style="padding:20px">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <ul class="nav navbar-nav">
+              <li><img src="/img/<?php echo $user->icon;?>.jpg" class="img-circle icon" alt="icon"></li>
+              <li><a href="#"><b class="text-primary"><?php echo $user->name;?></b> (<?php echo $user->uid;?>)</a></li>
+              <li><a id="status" href="#">座席状态: <span class="glyphicon glyphicon-ok-sign text-success" aria-hidden="true"></span></a></li>
+              <li><p class="navbar-text">To live is to change the world  -  Steve Jobs.</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 我的设置</a></li>
+              <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div>
+          <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="/agent/todayOrder">今日订单</a></li>
+            <li role="presentation"><a href="/agent/order">所有订单</a></li>
+            <li role="presentation"><a href="/agent/messages">Messages</a></li>
+            <li class="pull-right"><button class="btn btn-default btn-xs" style="height:26px;margin-top:6px" onClick="show()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加订单</button></li>
+          </ul>
+          <table class="table table-condensed table-striped table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>订单编号</th>
+                <th>客户姓名</th>
+                <th>手机号码</th>
+                <th>商品名称(价格)</th>
+                <th>商品数量</th>
+                <th>订单状态</th>
+                <th>质检员</th>
+                <th>下单时间</th>
+              </tr>
+            </thead>
+            <tbody class="text-muted">
+            <?php
+            if ($orders != null) {
+              foreach ($orders as $order) {
+                echo '<tr>',"\n";
+                echo '<td><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></td>',"\n";
+                echo '<td>',$order['id'],'</td>',"\n";
+                echo '<td>',mb_substr($order['name'], 0, 4, 'utf-8'),'</td>',"\n";
+                echo '<td>',mb_substr($order['phone'], 0, 11, 'utf-8'),'</td>',"\n";
+
+                if ($products != null) {
+                  echo '<td>',$products[$order['product']]['name'],'(',$products[$order['product']]['price'],')','</td>',"\n";
+                } else {
+                  echo '<td>未知产品(0.00)</td>',"\n";
+                }
+                
+                echo '<td>',$order['number'],'</td>',"\n";
+
+                if ($order['status'] == 1) {
+                  echo '<td><span class="label label-default">待审核</span></td>',"\n";
+                } else if ($order['status'] == 2) {
+                  echo '<td><span class="label label-success">已通过</span></td>',"\n";
+                } else if ($order['status'] == 3) {
+                  echo '<td><span class="label label-danger" data-toggle="tooltip" data-placement="top" title="',$order['reason'],'">不通过</span></td>',"\n";
+                } else if ($order['status'] == 4) {
+                  echo '<td><span class="label label-info">已发货</span></td>',"\n";
+                } else if ($order['status'] == 5) {
+                  echo '<td><span class="label label-warning" data-toggle="tooltip" data-placement="top" title="',$order['reason'],'">待&nbsp;&nbsp;&nbsp;定</span></td>',"\n";
+                } else {
+                  echo '<td><span class="label label-default">未知状态</span></td>',"\n";
+                }
+                
+                echo '<td>',$order['quality'],'</td>',"\n";
+                echo '<td>',$order['create_time'],'</td>',"\n";
+                echo '</tr>',"\n";
+              }
+            }
+            ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/agent.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      });
+
+      var timer = setInterval(function() {
+        syncStatus();
+      }, 3000);
+    </script>
+  </body>
+</html>

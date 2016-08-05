@@ -1,0 +1,54 @@
+body {
+    background-color: #EFEFEF;
+    font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.main {
+    width: 768px;
+    margin: 0px auto;
+    margin-top: 160px;
+    padding: 20px 40px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #EAEAEA;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #FEFEFE;
+}
+
+.text-muted {
+    margin: 0px;
+}
+
+.main h3 {
+    color: #555555;
+}
+
+.media-heading {
+    margin-top: 15px;
+}
+
+.main form {
+    margin-top: 40px;
+}
+
+.box-account, .box-password {
+    margin-top: 28px;
+}
+
+.box-account input, .box-password input {
+    font-weight: bold;
+}
+
+.box-help, .box-login-btn {
+    margin-top: 20px;
+}
+
+.box-help {
+    color: #bbbbbb;
+}
+
+ .footer {
+     margin-top: 45px;
+}

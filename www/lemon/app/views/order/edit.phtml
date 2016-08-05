@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>添加订单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <style type="text/css">
+      body {
+        padding: 0px;
+        margin: 0px;
+        font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+      }
+      .table {
+        margin-bottom: 10px;
+      }
+      .table>tbody>tr>td {
+        line-height: 25px;
+      }
+
+      .table .td-name, .table .td-product, .table .td-phone, .table .td-telephone, .table .td-number, .table .td-address, .table .td-remark, .table .td-submit-help {
+        width: 80px;
+      }
+      .td-name-input, .td-phone-input, .td-telephone-input {
+        width:265px;
+      }
+      .text-reason {
+        width:410px;
+      }
+      .input-group-btn .glyphicon {
+        color: #666666;
+      }
+    </style>
+  </head>
+  <body style="min-width:650px;padding-bottom:0px">
+    <div style="padding:15px">
+      <form action="/order/update/<?php echo $order['id']; ?>" method="post">
+        <table class="table table-condensed table-striped" style="width:700px">
+          <tr>
+            <td class="td-name">客户姓名:</td>
+            <td class="td-name-input">
+              <input type="text" class="form-control input-sm" name="name" value="<?php echo $order['name']; ?>" placeholder="请输入客户姓名" required>
+            </td>
+            <td class="td-phone">下单座席:</td>
+            <td class="td-phone-input"><input type="text" class="form-control input-sm" name="creator" value="<?php echo $agents[$order['creator']]['name'] . '(' . $order['creator'] . ')';?>" disabled></td>
+          </tr>
+          <tr>
+            <td class="td-phone">手机号码:</td>
+            <td class="td-phone-input">
+              <input type="text" class="form-control input-sm" name="phone" value="<?php echo $order['phone']; ?>" placeholder="请输入手机号码" required>
+            </td>
+            <td class="td-product">商品名称:</td>
+            <td class="td-product-input" colspan="2">
+              <select class="form-control input-sm" name="product">
+                <?php
+                if ($products != null) {
+                  foreach ($products as $product) {
+                    if ($order['product'] == $product['id']) {
+                      echo '<option value="',$product['id'],'" selected="selected">',$product['name'],'(',intval($product['price']),')','</option>',"\n";
+                    } else {
+                      echo '<option value="',$product['id'],'">',$product['name'],'(',intval($product['price']),')','</option>',"\n";
+                    }
+                  }
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-telephone">固定电话:</td>
+            <td class="td-telephone-input">
+              <input type="text" class="form-control input-sm" name="telephone" value="<?php echo $order['telephone'];?>">
+            </td>
+            <td class="td-number">商品数量:</td><td class="td-number-input"><input type="number" class="form-control input-sm" name="number" value="<?php echo $order['number'];?>" placeholder="请输入商品数量" min="1" required></td>
+          </tr>
+          <tr>
+            <td class="td-address">收货地址:</td>
+            <td colspan="3">
+              <input type="text" class="form-control input-sm" name="address" value="<?php echo $order['address']; ?>" placeholder="请输入收货地址" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-remark">备注信息:</td>
+            <td colspan="3"><input type="text" class="form-control input-sm" name="comment" value="<?php echo $order['comment']; ?>"></td>
+          </tr>
+          <tr>
+            <td class="td-remark" style="padding-top:20px">通话录音:</td>
+            <td colspan="3" style="padding-top:20px"><audio id="audio" src="" preload="metadata" controls="controls" style="width:610px">您的浏览器不支持录音试听</audio></td>
+          </tr>
+        </table>
+        <div>
+          <table class="table" style="width:700px">
+            <tr>
+              <td class="td-submit-help">订单状态: </td>
+              <td class="text-left" style="width:110px">
+                <select class="form-control input-sm" name="status" style="width:100px">
+                  <option value="1"<?php if($order['status'] == 1) {echo 'selected="selected"';}?>>待审核</option>
+                  <option value="2"<?php if($order['status'] == 2) {echo 'selected="selected"';}?>>已通过</option>
+                  <option value="3"<?php if($order['status'] == 3) {echo 'selected="selected"';}?>>不通过</option>
+                  <option value="4"<?php if($order['status'] == 4) {echo 'selected="selected"';}?>>已发货</option>
+                  <option value="5"<?php if($order['status'] == 5) {echo 'selected="selected"';}?>>待 &nbsp&nbsp定</option>
+                </select>
+              </td>
+              <td class="td-remark">审核备注:</td>
+              <td colspan="2"><input type="text" class="form-control input-sm text-reason" placeholder="如果订单不通过请在这里填写原因" name="reason" value="<?php echo $order['reason']; ?>"></td>
+            </tr>
+            <tr>
+              <td class="text-center" colspan="4">
+              <button type="submit" class="btn btn-success" style="margin-top:20px">保存修改</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="reset" class="btn btn-default" style="margin-top:20px">撤销修改</button></td>
+            </tr>
+          </table>
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript">
+      reqwest({
+        url: '/api/getRecord/<?php echo $order['phone'];?>',
+        method: 'get',
+        success: function (resp) {
+          $("#audio")[0].src = "/record/" + resp;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+.jumbotron {
+    background-color:#FBFBFB;
+}
+
+.jumbotron>hr {
+    border-top-color: #eeeeee;
+}
+
+div h4 {
+    margin-top: 12px;
+}
+
+.motto {
+    color: #777777;
+}
+
+.details div {
+    height: 35px;
+    color: #555555;
+}
+
+.text-right button {
+    margin-right: 28px;
+}

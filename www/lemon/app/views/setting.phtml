@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/setting.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/status">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a><img class="img-circle icon" src="/img/008.png" width="19" height="19"> hehe</a></li>
+            <li><a href="#">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-xs-2 col-sm-2 col-md-2 text-center"><img class="img-circle" src="/img/008.jpg" width="70" height="70"></div>
+          <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12"><h4 class="text-muted"><b>周杰伦</b><small> 11002</small></h4></div>
+            </div>
+            <div class="row motto">
+              <div class="col-xs-12 col-sm-12 col-md-12">心灰意冷的人，驹中隙，何以慰平生</div>
+            </div>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 text-center"><a href="#" title="扫描二维码可以上传图像"><img class="img-circle" style="opacity: 0.3" src="/img/qr_code.png" width="70" height="70" alt="code"></a></div>
+        </div>
+        <hr>
+        <div class="row details">
+          <div class="col-xs-7 col-sm-7 col-md-7 text-center">
+            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> 加入时间: 2016-07-08&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> 座席类型: 普通座席&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 人气指数: 158
+          </div>
+          <div class="col-xs-5 col-sm-5 col-md-5 text-right">
+            <button type="button" class="btn btn-default btn-xs" onClick="show()">动弹一个</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript">
+      $('li.dropdown').mouseover(function() {   
+        $(this).addClass('open');
+      }).mouseout(function() {
+        $(this).removeClass('open');
+      });
+
+      layer.config({
+	      extend: 'extend/layer.ext.js'
+	    });
+      
+      function show() {
+        layer.prompt({
+            title: '发表动态信息',
+            formType: 0
+          }, function(pass){
+            layer.msg('你今天的心情：'+ pass);
+        });
+      }
+    </script>
+  </body>
+</html>

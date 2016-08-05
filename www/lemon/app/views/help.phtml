@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/help.css">
+    <style type="text/css">
+      .table {
+        margin-top: 15px;
+      }
+
+      .nav-tabs a {
+        color: #888888;
+      }
+
+      .table tbody tr td {
+        padding-left: 15px;
+        line-height: 24px;
+        border-top: 1px solid #fbfbfb;
+      }
+
+      td code {
+        font-size: 14px;
+      }
+
+      #key td .label {
+      margin-left: 10px;
+      margin-right: 10px;
+      }
+
+      #domain td small, #key td small, #download td small {
+        color: #a0a0a0;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/status">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li class="active"><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo mb_substr($user->name, 0, 8, 'utf-8') ?></a></li>
+            <li><a id="account" href="/account">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="jumbotron">
+	<div>
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active">
+	      <a href="#key" aria-controls="key" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> 座席功能代码</a>
+	    </li>
+	    <li role="presentation">
+	      <a href="#download" aria-controls="download" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span> 帮助文档及软件下载</a>
+	    </li>
+	    <li role="presentation">
+	      <a href="#domain" aria-controls="domain" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> 服务器注册域名</a>
+	    </li>
+	    <li role="presentation">
+	      <a href="#qa" aria-controls="qa" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 常见问题参考</a>
+	    </li>
+	  </ul>
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane" id="domain">
+              <table class="table table-condensed table-striped table-hover">
+		<tbody class="text-muted">
+		  <tr><td><span class="label label-success"><b>192.168.200.105</b></span></td><td class="text-right"><small>座席软电话注册时使用这个域名</small></td></tr>
+		</tbody>
+              </table>
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="download">
+	      <table class="table table-condensed table-striped table-hover">
+              <tbody class="text-muted">
+                <tr><td>1. <a href="/files/软电话安装及注册.doc">软电话安装及注册.doc</a></td><td class="text-right"><small>软电话的安装以及注册使用方法</small></td></tr>
+                <tr><td>2. <a href="/files/座席登录以及下单操作.doc">座席登录以及下单操作.doc</a></td><td class="text-right"><small>软电话的安装以及注册使用方法</small></td></tr>
+                <tr><td>3. <a href="/files/群呼转座席操作手册.doc">群呼转座席操作手册.doc</a></td><td class="text-right"><small>语音群呼转座席的使用以及操作方法</small></td></tr>
+                <tr><td>4. <a href="/files/点击式外呼操作手册.doc">点击式外呼操作手册.doc</a></td><td class="text-right"><small>点击式外呼的使用以及操作方法</small></td></tr>
+                <tr><td>5. <a href="/files/号码魔方安装及操作手册.doc">号码魔方安装及操作手册.doc</a></td><td class="text-right"><small>极速号码魔方的安装以及操作方法</small></td></tr>
+                <tr><td>6. <a href="/files/GoogleChrome.exe">GoogleChrome.exe</a></td><td class="text-right"><small>Google Chorme 谷歌浏览器安装包</small></td></tr>
+                <tr><td>7. <a href="/files/eyeBeam-1.5.zip">eyeBeam-1.5.zip</a></td><td class="text-right"><small>座席端 eyeBeam 软电话安装包</small></td></tr>
+              </tbody>
+            </table>
+	    </div>
+	    <div role="tabpanel" class="tab-pane active" id="key">
+	      <table class="table table-condensed table-striped table-hover">
+              <tbody class="text-muted">
+                <tr><td>座席拨 <span class="label label-success"> <b>001</b></span>将会登录到外呼任务队列，开始接听</td></tr>
+                <tr><td>座席拨 <span class="label label-warning"> <b>002</b></span>将座席状态设置为暂停，座席将不会接受到客户来电</td></tr>
+                <tr><td>座席拨 <span class="label label-primary"> <b>003</b></span>将座席暂停状态恢复为正常状态，可以接受客户来电</td></tr>
+                <tr><td>座席拨 <span class="label label-default"> <b>004</b></span>每天下班时间用于退出系统任务队列</td></tr>
+              </tbody>
+            </table>
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="qa">
+	      <table class="table table-condensed table-striped table-hover">
+            <tbody class="text-muted">
+              <tr><td>1. <span class="text-danger">座席端软电话拨 <code>004</code> 提示操作受限，无法退出怎么办？</span></td></tr>
+              <tr><td><small>正常上班时间，任务正在外呼的时候座席不允许退出，如果要强行退出需要管理员先停止任务，然后座席拨 004 才能退出</small></td></tr>
+              <tr><td>2. <span class="text-danger">创建了一个任务，然后启动任务，所有员工没有进线是什么问题？</span></td></tr>
+              <tr><td><small>启动任务之前，所有座席在分机状态页面必须显示已注册，并且都拨了 001 登录到了系统，检查状态监控页面所有座席都登录好了，然后才能启动任务</small></td></tr>
+              <tr><td>3. <span class="text-danger">状态监控页面显示某个座席状态为打酱油还有漏接电话这个是什么问题？</span></td></tr>
+              <tr><td><small>软电话故障或网络不稳定会导致这种问题，先让座席重新注册软电话，关闭软电话的示忙功能，必须开启自动接听功能，并在分机状态检查注册是否成功</small></td></tr>
+              <tr><td>4. <span class="text-danger">创建任务的时候无法导入号码是什么问题？</span></td></tr>
+              <tr><td><small>创建任务之前必须确认系统中最少要有一个语音，号码文件必须是 txt 的文本文件，号码文件大小不得超过 1MB，号码数量不得超过 8 万条数据</small></td></tr>
+              <tr><td>5. <span class="text-danger">系统状态监控没有并发但是号码数据一直在减少没有进线怎么办？</span></td></tr>
+              <tr><td><small>请确认号码数据必须是中国移动号码，不允许打电信或者联通号码，检查所有座席是否已注册并且拨 001 登录到了系统，然后检查账户是否有话费余额</small></td></tr>
+              <tr><td>6. <span class="text-danger">无法上传语音一般是什么原因？</span></td></tr>
+              <tr><td><small>一般是因为语音格式不对或者文件太大. 请检查语音文件编码必须是 16位，单声道，8000Hz，格式为 wav 的音频文件，语音文件大小不得超过 1MB</small></td></tr>
+              <tr><td>7. <span class="text-danger">软电话注册提示 403 Forbidden 是什么原因？</span></td></tr>
+              <tr><td><small>出现此类问题是因为帐号或者密码不正确，请重新检查分机帐号和分机密码，然后删除重新注册</small></td></tr>
+              <tr><td>8. <span class="text-danger">软电话注册提示 408 Request Timeout 是什么原因？</span></td></tr>
+              <tr><td><small>出现此类问题是因为软电话注册填写的域名不正确，或者座席电脑网络不通，请重新检查并填写注册域名，检查座席电脑网络是否能连接外网</small></td></tr>
+              <tr><td>9. <span class="text-danger">某一个座席在状态监控页面一直显示正在等待中没有进线是什么问题？</span></td></tr>
+              <tr><td><small>此问题通常是因为座席软电话没有注册，或者因为网络不稳定软电话掉线，请在分机状态里面检查该座席是否已注册，然后让座席重新注册软电话</small></td></tr>
+              <tr><td>10. <span class="text-danger">系统进线很慢，座席大部分在等待中是什么问题？</span></td></tr>
+              <tr><td><small>进线慢通常是因为号码数据不好，不要使用单一号码段，至少要使用三个不同号码段，语音时间太长也会导致无意向客户，对语音不感兴趣挂断的太多，这些都是全国整个行业的问题。如果想提升进线速度就必须要牺牲话费成本加大并发数来解决此类问题</small></td></tr>
+              <tr><td>11. <span class="text-danger">任务号码接通率和转接率都很高，但进线还是慢是什么问题？</span></td></tr>
+              <tr><td><small>此类问题通常是因为座席人员态度或者话术问题，考核一个员工的态度和工作效率主要看他们当天的平均通话时长，在通话记录报表里面可以查询每个座席的平均通话时长，一般正常情况下平均通话时长低于1分钟的属于态度有问题工作效率差，或者话术方面有问题，请加强员工的思想教育和话术培训</small></td></tr>
+              <tr><td>12. <span class="text-danger">电话可以打通，但客户不说话或者某一边听不见声音是什么问题？</span></td></tr>
+              <tr><td><small>遇到此类问题请先用话机打自己手机测试看是否正常，如果打自己手机正常并且双方说话都可以听见，那客户对方可能是老年人或者是小孩子不说话，也有可能对方手机号码是企业语音留言或者是企业话务台，没有人正真在接听。如果打自己手机测试也有问题，那就是电脑声卡或耳机有问题，请检查电脑声卡和软电话声卡设置是否正确，并且更换一个耳机试一试</small></td></tr>
+            </tbody>
+          </table>
+	    </div>
+	  </div>
+	</div>
+        <br>
+        <hr>
+        <div>
+          <p class="text-left text-muted" style="font-size:13px">Copyright © <?php echo date('Y'); ?> Jatogroup Inc. All Rights Reserved. Power by lemon 4.0</p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/extend.js"></script>
+  </body>
+</html>

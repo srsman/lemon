@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>订单提示信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <style type="text/css">
+      body {
+        width: 658px;
+        height: 287px;
+        min-width: 658px;
+        background-color: ##efefef;
+      }
+      .container {
+        width: 658px;
+        height: 287px;
+        margin-right: 0px;
+        margin-left: 0px;
+      }
+
+      .jumbotron {
+        width: 705px;
+        height: 400px;
+        padding-top: 125px;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        background-color: #FFF;
+        border-width: 3px;
+        border-color: #eeeeee;
+        border-style: solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron text-center" style="-moz-border-radius: 15px;-webkit-border-radius:15px;border-radius: 15px;">
+        <div class="alert alert-default alert-dismissible fade in" role="alert">
+          <h4 style="color:rgba(217, 83, 79, 0.75)"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Oops 出错了!</h4>
+          <p style="font-size: 14px;line-height:28px">订单修改失败，请重新检查订单<br><br></p>
+          <p><button class="btn btn-default" onclick="history.go(-1)">返 回</button></p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  </body>
+</html>

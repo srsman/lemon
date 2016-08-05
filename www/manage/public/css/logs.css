@@ -1,0 +1,7 @@
+.breadcrumb > .pull-right:before {
+    content:"";
+}
+
+th, td {
+    text-align: left;
+}

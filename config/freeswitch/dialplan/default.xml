@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<include>
+  <context name="default">
+
+    <extension name="unloop">
+      <condition field="${unroll_loops}" expression="^true$"/>
+      <condition field="${sip_looped_call}" expression="^true$">
+	<action application="deflect" data="${destination_number}"/>
+      </condition>
+    </extension>
+
+    <extension name="Agent Login">
+      <condition field="destination_number" expression="^001$">
+        <action application="curl" data="http://127.0.0.1:8080/agent/${caller_id_number}/status" inline="true"/>
+      </condition>
+      <condition field="${curl_response_data}" expression="^1$" break="on-true">
+        <action application="answer"/>
+	<action application="set" data="res=${callcenter_config(agent set status ${caller_id_number} 'Available')}" />
+        <action application="sleep" data="300"/>
+	<action application="playback" data="$${sounds_dir}/login.wav"/>
+	<action application="hangup" />
+        <anti-action application="playback" data="$${sounds_dir}/info.wav"/>
+        <anti-action application="hangup"/>
+      </condition>
+    </extension>
+    
+    <extension name="Agent Stop">
+      <condition field="destination_number" expression="^002$">
+        <action application="answer"/>
+	<action application="set" data="res=${callcenter_config(agent set state ${caller_id_number} 'Idle')}"/>
+        <action application="sleep" data="300"/>
+	<action application="playback" data="$${sounds_dir}/stop.wav"/>
+	<action application="hangup"/>
+      </condition>
+    </extension>
+    
+    <extension name="Agent Start">
+      <condition field="destination_number" expression="^003$">
+        <action application="answer"/>
+        <action application="set" data="res=${callcenter_config(agent set state ${caller_id_number} 'Waiting')}"/>
+        <action application="sleep" data="300"/>
+	<action application="playback" data="$${sounds_dir}/start.wav"/>
+	<action application="hangup"/>
+      </condition>
+    </extension>
+    
+    <extension name="Agent Logout">
+      <condition field="destination_number" expression="^004$">
+        <action application="curl" data="http://127.0.0.1:8080/company/${accountcode}/power" inline="true"/>
+      </condition>
+      <condition field="${curl_response_data}" expression="^0$" break="on-true">
+        <action application="answer"/>
+        <action application="set" data="res=${callcenter_config(agent set status ${caller_id_number} 'Logged Out')}"/>
+        <action application="sleep" data="300"/>
+	<action application="playback" data="$${sounds_dir}/logout.wav"/>
+	<anti-action application="answer"/>
+        <anti-action application="sleep" data="300"/>
+	<anti-action application="playback" data="$${sounds_dir}/refuse.wav"/>
+	<anti-action application="hangup"/>
+      </condition>
+    </extension>
+
+    <extension name="Auto Call">
+      <condition field="destination_number" expression="^9$">
+        <action application="curl" data="http://127.0.0.1:8080/agent/${caller_id_number}/status" inline="true"/>
+      </condition>
+      <condition field="${curl_response_data}" expression="^1$" break="on-true">
+        <action application="curl" data="http://127.0.0.1:8080/autocall/${accountcode}/${caller_id_number}" inline="true"/>
+        <action application="curl" data="http://127.0.0.1:8080/check/${curl_response_data}" inline="true"/>
+        <action application="set" data="called=${curl_response_data}" inline="true"/>
+        <action application="bridge_export" data="nolocal:bleg_uuid=${uuid}"/>
+        <action application="bridge_export" data="nolocal:accountcode=${accountcode}"/>
+        <action application="set" data="RECORD_ANSWER_REQ=true"/>
+        <action application="set" data="RECORD_STEREO=false"/>
+        <action application="record_session" data="$${recordings_dir}/${strftime(%Y/%m/%d}/${uuid}.wav"/>
+        <action application="set" data="call_timeout=60"/>
+        <action application="bridge" data="sofia/gateway/trunk.${accountcode}.gw/${called}"/>
+        <anti-action application="playback" data="$${sounds_dir}/info.wav"/>
+        <anti-action application="hangup"/>
+      </condition>
+    </extension>
+
+    <extension name="Query Last Called">
+      <condition field="destination_number" expression="^7$">
+        <action application="answer"/>
+        <action application="curl" data="http://127.0.0.1:8080/agent/${caller_id_number}/lastcalled" inline="true"/>
+        <action application="set" data="last_called=${curl_response_data}" inline="true"/>
+	<action application="say" data="en number iterated ${last_called}"/>
+        <action application="sleep" data="1000"/>
+	<action application="say" data="en number iterated ${last_called}"/>
+        <action application="sleep" data="1000"/>
+	<action application="say" data="en number iterated ${last_called}"/>
+        <action application="hangup"/>
+      </condition>
+    </extension>
+
+    <extension name="Outgoing">
+      <condition field="destination_number" expression="^1[3578][0-9]">
+	<action application="curl" data="http://127.0.0.1:8080/agent/${caller_id_number}/outcall" inline="true"/>
+      </condition>
+      <condition field="${curl_response_data}" expression="^1$" break="on-true">
+	<action application="curl" data="http://127.0.0.1:8080/check/${destination_number}" inline="true"/>
+	<action application="set" data="called=${curl_response_data}" inline="true"/>
+	<action application="bridge_export" data="nolocal:bleg_uuid=${uuid}"/>
+	<action application="bridge_export" data="nolocal:accountcode=${accountcode}"/>
+	<action application="set" data="RECORD_ANSWER_REQ=true"/>
+	<action application="set" data="RECORD_STEREO=false"/>
+	<action application="record_session" data="$${recordings_dir}/${strftime(%Y/%m/%d}/${uuid}.wav"/>
+	<action application="set" data="call_timeout=60"/>
+        <action application="bridge" data="sofia/gateway/trunk.${accountcode}.gw/${called}"/>
+	<anti-action application="playback" data="$${sounds_dir}/info.wav"/>
+	<anti-action application="hangup"/>
+      </condition>
+    </extension>
+  </context>
+
+  <context name="callcenter">
+    <extension name="Callcenter Queue">
+      <condition field="destination_number" expression="^service$">
+        <action application="answer"/>
+	<action application="curl" data="http://127.0.0.1:8080/data/${accountcode}/answer"/>
+	<action application="curl" data="http://127.0.0.1:8080/task/${accountcode}/sound" inline="true"/>
+	<action application="set" data="sound=${curl_response_data}" inline="true"/>
+      </condition>
+      <condition field="${sound}" expression="wav$" break="never">
+        <action application="playback" data="/var/www/lemon/public/sounds/${sound}"/>
+      </condition>
+      <condition field="destination_number" expression="^service$">
+	<action application="set" data="call_timeout=10"/>
+	<action application="set" data="bleg_uuid=${uuid}"/>
+        <action application="set" data="caller_id_name=${caller_id_number}"/>
+        <action application="set" data="cc_export_vars=call_timeout,bleg_uuid,caller_id_name,caller_id_number"/>
+        <action application="curl" data="http://127.0.0.1:8080/data/${accountcode}/complete"/>
+        <action application="callcenter" data="${accountcode}@queue"/>
+      </condition>
+    </extension>
+  </context>
+</include>

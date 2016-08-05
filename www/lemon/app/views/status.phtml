@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>呼叫中心系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/non-responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/status.css">
+    <style type="text/css">
+    .container .alert {
+      display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img alt="Logo" src="/img/logo.png"></a>
+          <a class="navbar-brand" href="#">呼叫中心</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">状态监控</a></li>
+            <li><a href="/task">任务管理</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">座席管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">座席管理</a></li>
+                <li><a href="/exten">分机状态</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目管理</a>
+              <ul class="dropdown-menu">
+                <li><a href="/order">订单管理</a></li>
+                <li class="disabled"><a href="#">客户资料管理</a></li>
+                <li><a href="/product">商品管理</a></li>
+                <li><a href="/sound">语音管理</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">通话记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/cdr/query">通话记录查询</a></li>
+                <li><a href="/cdr/report">通话数据报表</a></li>
+              </ul>
+            </li>
+            <li><a href="/help">帮助文档</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><img class="img-circle icon" src="/img/<?php echo $user->icon; ?>.png" width="19" height="19"> <?php echo mb_substr($user->name, 0, 8, 'utf-8') ?></a></li>
+            <li><a id="account" href="/account">我的账户</a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退 出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div id="warning" class="alert alert-warning" role="alert">
+        <strong>Warning!</strong> 您的账户余额已经不足 150 元，请您注意充值.
+      </div>
+      <div id="arrears" class="alert alert-danger" role="alert">
+        <strong>Warning!</strong> 您的账户已经欠费，请及时充值，以免影响您的业务.
+      </div>
+    </div>
+    <div id="app" class="container box">
+      <div>
+        <ol class="breadcrumb">
+          <li>当前任务: <span class="label label-default">{{ task.name }}</span></li>
+          <li>任务类型: <span class="label label-primary">{{ task.type }}</span></li>
+          <li>完成进度: <span class="label label-success">{{ task.completed }}%</span></li>
+          <li>登录座席: <span class="label label-info">{{ login }}</span></li>
+          <li>正在通话: <span class="label label-success">{{ talking }}</span></li>
+          <li>正听语音: <span class="label label-default">{{ playback }}</span></li>
+          <li>当前并发: <span class="label label-info">{{ concurrent }}</span></li>
+          <li class="pull-right" style="color:#555555"><span class="glyphicon glyphicon-time"></span> {{ date}}</li>
+        </ol>
+      </div>
+      <div>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="td-icon">#</th>
+              <th>座席分机</th>
+              <th>座席姓名</th>
+              <th>当前状态</th>
+              <th>总接听数</th>
+              <th>漏接电话</th>
+              <th>总通话时长</th>
+              <th class="td-dev">最后一次通话时间</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+            <tr v-for="agent in queues">
+              <td class="td-icon"><img src="/img/{{ agent.icon }}.png" class="img-circle icon" alt="image"></td>
+              <td>{{ agent.uid }}</td>
+              <td>{{ agent.name }}</td>
+              <td class="text-success"><span class="label {{ agent.stateStyle }}">{{ agent.state }}</span></td>
+              <td>{{ agent.calls_answered }}</td>
+              <td><span class="{{ agent.noAnswerStyle }}">{{ agent.no_answer_count }}</span></td>
+              <td>{{ agent.talk_time }}</td>
+              <td class="td-dev">{{ agent.last_bridge_start }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.min.js"></script>
+    <script type="text/javascript" src="/js/reqwest.min.js"></script>
+    <script type="text/javascript">
+    $('li.dropdown').mouseover(function() {   
+      $(this).addClass('open');
+    }).mouseout(function() {
+      $(this).removeClass('open');
+    });
+
+    app = new Vue({
+      el: '#app',
+      data: {
+        login: 0,
+        talking: 0,
+        playback: 0,
+        concurrent: 0,
+        date: 'syncing...',
+        task: {
+          name: 'Null',
+          type: '未知类型',
+          completed: 0
+        },
+        queues: {}
+      },
+      ready: function() {
+        update();
+      }
+    });
+
+    function update() {
+      setInterval(function() {
+        reqwest({
+          url: '/api/get_status',
+          method: 'get',
+          success: function (resp) {
+            var obj = JSON.parse(resp);
+            app.$data.login = obj.login;
+            app.$data.talking = obj.talking;
+            app.$data.playback = obj.playback;
+            app.$data.concurrent = obj.concurrent;
+            app.$data.date = obj.date;
+            app.$data.task.name = obj.task.name;
+            app.$data.task.type = obj.task.type;
+            if (obj.task.total > 0) {
+              app.$data.task.completed = Math.round((obj.task.total - obj.task.remainder) / obj.task.total * 100);
+            } else {
+              app.$data.task.completed = 0;
+            }
+            if (obj.queues != 'null') {
+              app.$data.queues = obj.queues;
+            }
+          }
+        });
+
+        reqwest({
+          url: '/api/checkmoney',
+          method: 'get',
+          success: function (resp) {
+            if (resp == '0') {
+              document.getElementById("arrears").style.display = 'none';
+              document.getElementById("warning").style.display = 'none';
+            } else if (resp == '1') {
+              document.getElementById("warning").style.display = 'none';
+              document.getElementById("arrears").style.display = 'block';
+            } else if (resp == '2') {
+              document.getElementById("arrears").style.display = 'none';
+              document.getElementById("warning").style.display = 'block';
+            }
+          }
+        });
+      }, 1000);
+    }
+    </script>
+  </body>
+</html>
