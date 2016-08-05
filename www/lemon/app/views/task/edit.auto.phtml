@@ -116,6 +116,8 @@
                     if ($task['play'] == '1') {
                       if ($task['sound'] == $sound['id']) {
                         echo '<option value="',$sound['id'],'" selected="selected">',$sound['name'],"</option>\n";
+                      } else {
+                        echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
                       }
                     } else {
                       echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
