@@ -1,7 +1,7 @@
 function show(id, file) {
     var html = '<div class="container-fluid">' +
                '<div class="row text-center" style="height:90px;padding:30px">' +
-               '<audio src="http://' + window.location.host + ':8088/sounds/' + file + '" preload="metadata" controls="controls">您的浏览器不支持录音试听</audio>' +
+               '<audio src="/sounds/' + file + '" preload="metadata" controls="controls">您的浏览器不支持录音试听</audio>' +
                '</div>' +
                '<div class="row text-center">' +
                '<a href="/sound/pass/' + id + '" class="btn btn-success">通 过</a><a href="/sound/reject/' + id + '" class="btn btn-danger" style="margin-left:18px">不通过</a>' +

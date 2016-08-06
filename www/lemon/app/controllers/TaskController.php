@@ -183,7 +183,7 @@ class TaskController extends ControllerBase {
         if ($this->request->isPost()) {
             $task = new Task($this);
             $task->create($this->user->company, $this->request->getPost(), $_FILES);
-            sleep(3);
+	    sleep(5);
             $this->response->redirect('task');
             $this->view->disable();
             return true;

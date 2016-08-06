@@ -122,7 +122,7 @@
               <label class="control-label col-sm-4">语音设置: </label>
               <div class="col-sm-3">
                 <select class="form-control input-sm" name="sound1">
-                  <option class="text-danger" value="0">====== 不使用语音 =====</option>
+                  <option class="text-danger"value="0">====== 不使用语音 =====</option>
                   <?php
                   if (is_array($sounds) && count($sounds) > 0) {
                     foreach ($sounds as $sound) {
@@ -140,7 +140,7 @@
               <label class="col-sm-4 control-label">数据过滤服务: </label>
               <div class="checkbox col-sm-3">
                 <label>
-                  <input type="checkbox" name="empty1"> 空号过滤
+                  <input type="checkbox" name="empty1"> 空号过滤 <img src="/img/new.png" style="height:24px" title="新功能上线">
                 </label>
               </div>
               <div class="col-sm-3">
@@ -193,7 +193,7 @@
               <label class="col-sm-4 control-label">数据过滤服务: </label>
               <div class="checkbox col-sm-3">
                 <label>
-                  <input type="checkbox" name="empty2"> 空号过滤
+                  <input type="checkbox" name="empty2"> 空号过滤 <img src="/img/new.png" style="height:24px" title="新功能上线">
                 </label>
               </div>
               <div class="col-sm-3">
@@ -252,7 +252,7 @@
               <label class="col-sm-4 control-label">数据过滤服务: </label>
               <div class="checkbox col-sm-3">
                 <label>
-                  <input type="checkbox" name="empty3"> 空号过滤
+                  <input type="checkbox" name="empty3"> 空号过滤 <img src="/img/new.png" style="height:24px" title="新功能上线">
                 </label>
               </div>
               <div class="col-sm-3">
@@ -282,7 +282,7 @@
       });
 
       $("#submit").click(function(){
-      var index = layer.load(2, {shade: [0.7,'#fff'], time: 3000});
+      var index = layer.load(2, {shade: [0.7,'#fff'], time: 8000});
       });
     </script>
   </body>

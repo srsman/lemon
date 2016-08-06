@@ -115,7 +115,7 @@ class OrderController extends ControllerBase {
 
         $this->view->where = $company->whereFilter($where);
 
-        if ($this->view->where['export']) {
+        if (isset($this->view->where['export'])) {
             if ($orders != null && $products != null && $agents != null) {
                 $this->view->disable();
                 $count = count($orders);

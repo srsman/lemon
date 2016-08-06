@@ -111,19 +111,19 @@
               <select class="form-control input-sm" name="sound" required>
               <option class="text-danger" value="0"<?php if($task['play'] == '0') {echo 'selected="selected"';}?>>====== 不使用语音 =====</option>
               <?php
-                if (is_array($sounds) && count($sounds) > 0) {
-                  foreach ($sounds as $sound) {
-                    if ($task['play'] == '1') {
-                      if ($task['sound'] == $sound['id']) {
-                        echo '<option value="',$sound['id'],'" selected="selected">',$sound['name'],"</option>\n";
-                      } else {
-                        echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
+      		    if (is_array($sounds) && count($sounds) > 0) {
+                      foreach ($sounds as $sound) {
+	                if ($task['play'] == '1') {
+	                  if ($task['sound'] == $sound['id']) {
+	                    echo '<option value="',$sound['id'],'" selected="selected">',$sound['name'],"</option>\n";
+	                  } else {
+	                    echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
+	                  }
+                        } else {
+                          echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
+                        }
                       }
-                    } else {
-                      echo '<option value="',$sound['id'],'">',$sound['name'],"</option>\n";
                     }
-                  }
-                }
               ?>
               </select>
             </div>
@@ -132,6 +132,7 @@
             </div>
           </div>
           <!-- 群呼转座席(自动模式) -->
+
           <div class="form-group">
             <div class="col-sm-3 col-sm-offset-4">
               <button type="submit" class="btn btn-success" style="width:80px">保存修改</button>
