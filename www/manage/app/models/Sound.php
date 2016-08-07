@@ -218,7 +218,7 @@ class Sound {
             $len = mb_strlen($remark, 'utf-8');
             if ($len > 0) {
                 $buff['remark'] = htmlspecialchars($remark, ENT_QUOTES);
-            } else if ($defval) {
+            } else {
                 $buff['remark'] = 'no description';
             }
         } else {
