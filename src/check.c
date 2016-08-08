@@ -96,10 +96,11 @@ int main(int argc, char *argv[]) {
         char *status = esl_event_get_header(handle.last_ievent, "Hangup-Cause");
         char *duration = esl_event_get_header(handle.last_ievent, "variable_duration");
 
-        number_t data = {{0}};
         if (number && status && duration) {
             /* check call duration */
             if (atol(duration) > 10) {
+                number_t data = {{0}};
+
                 if (*number == '0') {
                     strncpy(data.number, number + 1, 12);
                 } else {
