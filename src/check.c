@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     }
     
     struct mq_attr attr;
-    attr.mq_maxmsg = 8192;
+    attr.mq_maxmsg = 4096;
     attr.mq_msgsize = sizeof(number_t);
     mqd_t mqid = mq_open("/equeue", O_WRONLY | O_CREAT, 0666, &attr);
     if (mqid == -1) {
@@ -88,34 +88,34 @@ int main(int argc, char *argv[]) {
     esl_handle_t handle = {{0}};
     esl_status_t status;
     esl_connect(&handle, conf.esl.host, conf.esl.port, NULL, conf.esl.password);
-    esl_events(&handle, ESL_EVENT_TYPE_PLAIN, "CHANNEL_HANGUP");
+    esl_events(&handle, ESL_EVENT_TYPE_PLAIN, "CHANNEL_HANGUP_COMPLETE");
     esl_filter(&handle, "Hangup-Cause", "NORMAL_TEMPORARY_FAILURE");
     
     while((status = esl_recv(&handle)) == ESL_SUCCESS) {
         char *number = esl_event_get_header(handle.last_ievent, "Caller-Destination-Number");
         char *status = esl_event_get_header(handle.last_ievent, "Hangup-Cause");
+        char *duration = esl_event_get_header(handle.last_ievent, "variable_duration");
 
         number_t data = {{0}};
-        if (number && status) {
-            /* check number length */
-            if (strlen(number) < 11) {
-                continue;
-            }
-            
-            if (*number == '0') {
-                strncpy(data.number, number + 1, 12);
-            } else {
-                strncpy(data.number, number, 12);
-            }
-
-            strncpy(data.status, status, 31);
-
-            int n = mq_send(mqid, (const char *)&data, sizeof(number_t), 0);
-            if (n == -1) {
-                if (backgdMode) {
-                    logs(conf.logFile, "Error: Can not write queue message");
+        if (number && status && duration) {
+            /* check call duration */
+            if (atol(duration) > 10) {
+                if (*number == '0') {
+                    strncpy(data.number, number + 1, 12);
                 } else {
-                    fprintf(stderr, "Error: Can not write queue message");
+                    strncpy(data.number, number, 12);
+                }
+
+                strncpy(data.status, status, 31);
+
+                /* write queue message */
+                int n = mq_send(mqid, (const char *)&data, sizeof(number_t), 0);
+                if (n == -1) {
+                    if (backgdMode) {
+                        logs(conf.logFile, "Error: Can not write queue message");
+                    } else {
+                        fprintf(stderr, "Error: Can not write queue message");
+                    }
                 }
             }
         }
