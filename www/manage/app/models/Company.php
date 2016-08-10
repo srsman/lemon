@@ -459,7 +459,7 @@ class Company {
             $xml .= '    <param name="moh-sound" value="$${hold_music}"/>'."\n";
             $xml .= '    <param name="record-template" value="$${recordings_dir}/${strftime(%Y/%m/%d}/${uuid}.wav"/>'."\n";
             $xml .= '    <param name="time-base-score" value="system"/>'."\n";
-            $xml .= '    <param name="max-wait-time" value="30"/>'."\n";
+            $xml .= '    <param name="max-wait-time" value="45"/>'."\n";
             $xml .= '    <param name="max-wait-time-with-no-agent" value="30"/>'."\n";
             $xml .= '    <param name="max-wait-time-with-no-agent-time-reached" value="5"/>'."\n";
             $xml .= '    <param name="tier-rules-apply" value="false"/>'."\n";

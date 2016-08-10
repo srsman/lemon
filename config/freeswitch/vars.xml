@@ -48,10 +48,9 @@
       
   -->
 
-
+  <X-PRE-PROCESS cmd="set" data="temp_dir=/tmp"/>
+  <X-PRE-PROCESS cmd="set" data="cache_dir=/dev/shm"/>
   <X-PRE-PROCESS cmd="set" data="sound_prefix=$${sounds_dir}/en/us/callie"/>
-
-  <!-- recording directory configure -->
   <X-PRE-PROCESS cmd="set" data="recordings_dir=/var/www/lemon/public/record"/>
 
   <!--
@@ -63,7 +62,7 @@
   -->
   <X-PRE-PROCESS cmd="set" data="domain=$${local_ip_v4}"/>
   <X-PRE-PROCESS cmd="set" data="domain_name=$${domain}"/>
-  <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://moh"/>
+  <X-PRE-PROCESS cmd="set" data="hold_music=tone_stream://%(1000,4000,450);loops=-1"/>
   <X-PRE-PROCESS cmd="set" data="use_profile=external"/>
   <X-PRE-PROCESS cmd="set" data="rtp_sdes_suites=AEAD_AES_256_GCM_8|AEAD_AES_128_GCM_8|AES_CM_256_HMAC_SHA1_80|AES_CM_192_HMAC_SHA1_80|AES_CM_128_HMAC_SHA1_80|AES_CM_256_HMAC_SHA1_32|AES_CM_192_HMAC_SHA1_32|AES_CM_128_HMAC_SHA1_32|AES_CM_128_NULL_AUTH"/>
   <!--
@@ -71,7 +70,7 @@
       
       http://wiki.freeswitch.org/wiki/ZRTP (on how to enable zrtp)
   -->
-  <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=false"/>
+  <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
   <!--
       NOTICE: When using SRTP it's critical that you do not offer or accept
       variable bit rate codecs, doing so would leak information and possibly
@@ -421,7 +420,7 @@
   
   <!-- Internal SIP Profile -->
   <X-PRE-PROCESS cmd="set" data="internal_auth_calls=true"/>
-  <X-PRE-PROCESS cmd="set" data="internal_sip_port=5688"/>
+  <X-PRE-PROCESS cmd="set" data="internal_sip_port=5060"/>
   <X-PRE-PROCESS cmd="set" data="internal_tls_port=5061"/>
   <X-PRE-PROCESS cmd="set" data="internal_ssl_enable=false"/>
 

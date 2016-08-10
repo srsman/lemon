@@ -19,12 +19,6 @@
 	<action application="deflect" data="${destination_number}"/>
       </condition>
     </extension>
-    
-    <extension name="public_did">
-      <condition field="destination_number" expression="^4001$">
-	<action application="bridge" data="user/4001"/>
-	<action application="hangup"/>
-      </condition>
-    </extension>
+
   </context>
 </include>

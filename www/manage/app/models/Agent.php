@@ -327,7 +327,7 @@ class Agent {
             $xml .= "      <variable name=\"effective_caller_id_number\" value=\"" . $agent['uid'] . "\"/>\n";
             $xml .= "      <variable name=\"outbound_caller_id_name\" value=\"" . $agent['callerid'] . "\"/>\n";
             $xml .= "      <variable name=\"outbound_caller_id_number\" value=\"" . $agent['callerid'] . "\"/>\n";
-            $xml .= "      <variable name=\"callgroup\" value=\"techsupport\"/>\n";
+            $xml .= "      <variable name=\"callgroup\" value=\"default\"/>\n";
             $xml .= "    </variables>\n";
             $xml .= "  </user>\n";
             $xml .= "</include>\n";

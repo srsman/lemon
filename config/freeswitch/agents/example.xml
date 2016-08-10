@@ -1,0 +1,7 @@
+<include>
+  <!-- <agent name="1001" type="callback" contact="user/1001" status="Logged Out" max-no-answer="24" wrap-up-time="5" reject-delay-time="0" busy-delay-time="5" /> -->
+  <!-- <agent name="1002" type="callback" contact="user/1002" status="Logged Out" max-no-answer="24" wrap-up-time="5" reject-delay-time="0" busy-delay-time="5" /> -->
+  <!-- <agent name="1003" type="callback" contact="user/1003" status="Logged Out" max-no-answer="24" wrap-up-time="5" reject-delay-time="0" busy-delay-time="5" /> -->
+  <!-- <agent name="1004" type="callback" contact="user/1004" status="Logged Out" max-no-answer="24" wrap-up-time="5" reject-delay-time="0" busy-delay-time="5" /> -->
+  <!-- <agent name="1005" type="callback" contact="user/1005" status="Logged Out" max-no-answer="24" wrap-up-time="5" reject-delay-time="0" busy-delay-time="5" /> -->
+</include>

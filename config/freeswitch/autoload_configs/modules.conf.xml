@@ -22,7 +22,7 @@
     <!-- Event Handlers -->
     <!-- <load module="mod_amqp"/> -->
     <!-- <load module="mod_cdr_csv"/> -->
-    <load module="mod_cdr_pg_csv"/>
+    <load module="mod_json_cdr"/>
     <!-- <load module="mod_cdr_sqlite"/> -->
     <!-- <load module="mod_event_multicast"/> -->
     <load module="mod_event_socket"/>
@@ -70,8 +70,8 @@
     <!--<load module="mod_cluechoo"/>-->
     <load module="mod_valet_parking"/>
     <!--<load module="mod_fsk"/>-->
-    <!--<load module="mod_spy"/>-->
-    <!--<load module="mod_sms"/>-->
+    <load module="mod_spy"/>
+    <load module="mod_sms"/>
     <!--<load module="mod_smpp"/>-->
     <!--<load module="mod_random"/>-->
     <!-- <load module="mod_httapi"/> -->
@@ -131,9 +131,9 @@
     <!-- <load module="mod_rss"/> -->
 
     <!-- Say -->
-    <load module="mod_say_en"/>
+    <!-- <load module="mod_say_en"/> -->
     <!-- <load module="mod_say_ru"/> -->
-    <!-- <load module="mod_say_zh"/> -->
+    <load module="mod_say_zh"/>
     <!-- <load module="mod_say_sv"/> -->
 
     <!-- Third party modules -->
