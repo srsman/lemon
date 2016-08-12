@@ -107,20 +107,8 @@ $ emacs modules.conf
 $ ./configure --disable-debug --disable-libyuv --disable-libvpx --enable-core-pgsql-support
 $ make
 $ make install
-```
-* 安装 ESL PHP模块
-```sehll
-$ cd libs/esl
-$ make phpmod
-$ cp php/ESL.so /usr/lib64/php/modules
-```
-* 创建 FreeSWITCH 软链接
-```shell
 $ ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
 $ ln -s /usr/local/freeswitch/bin/freeswitch /usr/bin/freeswitch
-```
-* 创建 FreeSWITCH 相关目录
-```shell
 $ mkdir -p /var/service
 $ mkdir -p /var/freeswitch
 $ mkdir -p /usr/local/freeswitch/conf/queues
@@ -130,6 +118,13 @@ $ chown -R apache:apache /var/service
 $ chown -R apache:apache /var/freeswitch
 $ chown -R apache:apache /usr/local/freeswitch
 ```
+* 安装 ESL PHP模块
+```sehll
+$ cd libs/esl
+$ make phpmod
+$ cp php/ESL.so /usr/lib64/php/modules
+```
+
 * 安装 mod_bcg729 语音编码
 ```shell
 $ tar -zxvf mod_bcg729.tar.gz
