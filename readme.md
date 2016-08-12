@@ -111,9 +111,6 @@ $ ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
 $ ln -s /usr/local/freeswitch/bin/freeswitch /usr/bin/freeswitch
 $ mkdir -p /var/service
 $ mkdir -p /var/freeswitch
-$ mkdir -p /usr/local/freeswitch/conf/queues
-$ mkdir -p /usr/local/freeswitch/conf/agents
-$ mkdir -p /usr/local/freeswitch/conf/tiers
 $ chown -R apache:apache /var/service
 $ chown -R apache:apache /var/freeswitch
 $ chown -R apache:apache /usr/local/freeswitch
