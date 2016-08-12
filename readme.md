@@ -87,12 +87,17 @@ $ cd pgbouncer-1.7.2
 $ ./configure
 $ make
 $ make install
-$ cp etc/pgbouncer.ini /etc
 $ mkdir -p /etc/pgbouncer
 $ mkdir -p /var/log/pgbouncer
 $ mkdir -p /var/run/pgbouncer
 $ chown -R postgres:postgres /var/log/pgbouncer
 $ chown -R postgres:postgres /var/run/pgbouncer
+$ cp ../../config/pgbouncer/pgbouncer.ini /etc
+$ cp ../../config/pgbouncer/userlist.txt /etc/pgbouncer
+$ cp ../../config/pgbouncer/pgbouncer.conf /etc/tmpfiles.d
+$ cp ../../script/pgbouncer.service /etc/systemd/system
+$ systemctl enable pgbouncer.service
+$ systemctl start pgbouncer.service
 ```
 * 编译安装 FreeSWITCH
 ```shell
