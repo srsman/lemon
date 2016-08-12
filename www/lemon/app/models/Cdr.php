@@ -19,7 +19,7 @@ class Cdr {
             $where = $this->whereFilter($where);
             if ($where != null) {
                 $table = $this->tablePars($where['start']);
-                if ($table != null) {
+                if ($this->isTableExist($table)) {
                     $sql = "SELECT * FROM " . $table . " WHERE";
                     if (isset($where['id'])) {
                         $sql .= " id < " . $where['id'] . " AND company = " . $company_id;
@@ -41,7 +41,7 @@ class Cdr {
 
                     $sql .= " AND create_time BETWEEN '" . $where['start'] . "' AND '" . $where['end'] . "' ORDER BY create_time DESC LIMIT 45";
                     $result = $this->cdr->fetchAll($sql);
-                    return $result;
+                    return $result ? $result : null;
                 }
             }
         }
@@ -117,7 +117,7 @@ class Cdr {
             $where = $this->forReportFilter($where);
             if ($where != null) {
                 $table = $this->tablePars($where['start']);
-                if ($table != null) {
+                if ($this->isTableExist($table)) {
                     $sql = "SELECT caller, callee, duration FROM " . $table . " WHERE company = " . $company_id;
                     $sql .= " AND duration > 0";
                     $sql .= " AND create_time BETWEEN '" . $where['start'] . "' AND '" . $where['end'] . "'";
@@ -176,5 +176,17 @@ class Cdr {
         }
 
         return null;
+    }
+
+    private function isTableExist($table = null) {
+        if ($table != null) {
+            $sql = "SELECT count(*) FROM pg_class WHERE relname = '" . $table . "'";
+            $result = $this->cdr->fetchOne($sql);
+            if ($result && $result['count'] > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
