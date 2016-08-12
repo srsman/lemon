@@ -92,10 +92,10 @@ $ mkdir -p /var/log/pgbouncer
 $ mkdir -p /var/run/pgbouncer
 $ chown -R postgres:postgres /var/log/pgbouncer
 $ chown -R postgres:postgres /var/run/pgbouncer
-$ cp ../../config/pgbouncer/pgbouncer.ini /etc
-$ cp ../../config/pgbouncer/userlist.txt /etc/pgbouncer
-$ cp ../../config/pgbouncer/pgbouncer.conf /etc/tmpfiles.d
-$ cp ../../script/pgbouncer.service /etc/systemd/system
+$ cp ../config/pgbouncer.ini /etc
+$ cp ../config/userlist.txt /etc/pgbouncer
+$ cp ../config/pgbouncer.conf /etc/tmpfiles.d
+$ cp ../config/pgbouncer.service /etc/systemd/system
 $ systemctl enable pgbouncer.service
 $ systemctl start pgbouncer.service
 ```
