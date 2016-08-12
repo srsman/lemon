@@ -17,7 +17,7 @@ lemon 是基于 FreeSWITCH 的开源呼叫中心系统，是 tenjin 3.0 的升�
 3. 半自动一对一外呼
 
 ### 安装教程
-* 关闭相关服务
+* 服务优化
 ```shell
 $ systemctl disable auditd.service
 $ systemctl disable firewalld.service
