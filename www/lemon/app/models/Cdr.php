@@ -18,28 +18,31 @@ class Cdr {
         if ($company_id > 0) {
             $where = $this->whereFilter($where);
             if ($where != null) {
-                $sql = "SELECT id, caller_id_number, destination_number, start_stamp, billsec, bleg_uuid FROM cdr WHERE accountcode = '{$company_id}'";
-                if (isset($where['id'])) {
-                    $sql .= " AND id < " . $where['id'];
-                }
+                $table = $this->tablePars($where['start']);
+                if ($table != null) {
+                    $sql = "SELECT * FROM " . $table . " WHERE";
+                    if (isset($where['id'])) {
+                        $sql .= " id < " . $where['id'] . " AND company = " . $company_id;
+                    } else {
+                        $sql .= " company = " . $company_id;
+                    }
 
-                if (isset($where['caller_id_number'])) {
-                    $sql  .= " AND caller_id_number = '" . $where['caller_id_number'] . "'";
-                }
+                    if (isset($where['caller'])) {
+                        $sql  .= " AND caller = '" . $where['caller'] . "'";
+                    }
 
-                if (isset($where['destination_number'])) {
-                    $sql .= " AND destination_number = '" . $where['destination_number'] . "'";
-                } else {
-                    $sql .= " AND destination_number not in('7', '9', '001', '002', '003', '004', 'service')";
-                }
+                    if (isset($where['callee'])) {
+                        $sql .= " AND callee = '" . $where['callee'] . "'";
+                    }
 
-                if (isset($where['billsec'])) {
-                    $sql .= " AND billsec > " . $where['billsec'];
-                }
+                    if (isset($where['duration'])) {
+                        $sql .= " AND duration > " . $where['duration'];
+                    }
 
-                $sql .= " AND start_stamp BETWEEN '" . $where['start'] . "' AND '" . $where['end'] . "' ORDER BY start_stamp DESC LIMIT 45";
-                $result = $this->cdr->fetchAll($sql);
-                return $result;
+                    $sql .= " AND create_time BETWEEN '" . $where['start'] . "' AND '" . $where['end'] . "' ORDER BY create_time DESC LIMIT 45";
+                    $result = $this->cdr->fetchAll($sql);
+                    return $result;
+                }
             }
         }
 
@@ -60,7 +63,7 @@ class Cdr {
             $caller = $this->filter->sanitize($where['caller'], 'int');
             $len = mb_strlen($caller, 'utf-8');
             if ($len > 0) {
-                $buff['caller_id_number'] = $caller;
+                $buff['caller'] = $caller;
             }
         }
 
@@ -68,19 +71,19 @@ class Cdr {
             $called = $this->filter->sanitize($where['called'], 'int');
             $len = mb_strlen($called, 'utf-8');
             if ($len > 0) {
-                $buff['destination_number'] = $called;
+                $buff['callee'] = $called;
             }
         }
         
         if (isset($where['billsec'])) {
             $billsec = intval($where['billsec']);
             if ($billsec >= 0) {
-                $buff['billsec'] = $billsec;
+                $buff['duration'] = $billsec;
             } else {
-                $buff['billsec'] = 0;
+                $buff['duration'] = 0;
             }
         } else {
-            $buff['billsec'] = 0;
+            $buff['duration'] = 0;
         }
 
         if (isset($where['start'])) {
@@ -113,12 +116,14 @@ class Cdr {
         if ($company_id > 0) {
             $where = $this->forReportFilter($where);
             if ($where != null) {
-                $sql = "SELECT caller_id_number, destination_number, billsec FROM cdr WHERE accountcode = '{$company_id}'";
-                $sql .= " AND destination_number not in ('7', '9', '001', '002', '003', '004', 'service')";
-                $sql .= " AND billsec > 0";
-                $sql .= " AND start_stamp BETWEEN '{$where['start']}' AND '{$where['end']}'";
-                $result = $this->cdr->fetchAll($sql);
-                return $result;
+                $table = $this->tablePars($where['start']);
+                if ($table != null) {
+                    $sql = "SELECT caller, callee, duration FROM " . $table . " WHERE company = " . $company_id;
+                    $sql .= " AND duration > 0";
+                    $sql .= " AND create_time BETWEEN '" . $where['start'] . "' AND '" . $where['end'] . "'";
+                    $result = $this->cdr->fetchAll($sql);
+                    return $result;
+                }
             }
         }
 
@@ -157,9 +162,19 @@ class Cdr {
         return $buff;
     }
 
-    private function is_date($date, $format = 'Y-m-d H:i:s') {
+    private function is_date($date = null, $format = 'Y-m-d H:i:s') {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
     
+    private function tablePars($date = null) {
+        if ($date != null && $this->is_date($date)) {
+            $time = strtotime($date);
+            if ($time) {
+                return 'cdr_' . date('Ym', $time);
+            }
+        }
+
+        return null;
+    }
 }
