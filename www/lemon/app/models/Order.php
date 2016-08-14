@@ -65,24 +65,19 @@ class Order {
         return false;
     }
 
-    public function get_orderRecord($company_id = null, $phone = null) {
+    public function get_orderRecord($company_id = null, $uid = null, $phone = null) {
         $company_id = intval($company_id);
 
         if ($company_id > 0) {
-            $start = date('Y-m-d 08:00:00', strtotime('-3 days', time()));
-            $end = date('Y-m-d 20:00:00', time());
+            $uid = $this->filter->sanitize($uid, 'alphanum');
+            $phone = $this->filter->sanitize($phone, 'alphanum');
 
-            if ($phone[0] == '0' && strncmp($phone, '010', 3) !== 0) {
-                $sql = "SELECT start_stamp, bleg_uuid FROM cdr WHERE start_stamp BETWEEN '" . $start . "' AND '" . $end . "' AND caller_id_number IN ('" . ltrim($phone, '0') . "', '" . $phone . "') OR destination_number IN ('" . ltrim($phone, '0') . "', '" . $phone . "') AND accountcode = '" . $company_id . "' AND billsec > 0 ORDER BY billsec DESC";
-            } else if ($phone[0] == '1' && strlen($phone) === 11) {
-                $sql = "SELECT start_stamp, bleg_uuid FROM cdr WHERE start_stamp BETWEEN '" . $start . "' AND '" . $end . "' AND caller_id_number IN ('" . $phone . "', '0" . $phone . "') OR destination_number IN ('" . $phone . "', '0" . $phone . "') AND accountcode = '" . $company_id . "' AND billsec > 0 ORDER BY billsec DESC";
-            } else {
-                $sql = "SELECT start_stamp, bleg_uuid FROM cdr WHERE start_stamp BETWEEN '" . $start . "' AND '" . $end . "' AND caller_id_number = '" . $phone . "' OR destination_number = '" . $phone . "' AND accountcode = '$company_id' AND billsec > 0 ORDER BY billsec DESC";
-            }
-            
+            $table = 'cdr_' . date('Ym');
+            $sql = "SELECT record FROM " . $table . " WHERE company = " . $company_id . " AND caller in('" . $uid . "', '" . ltrim($phone, '0') . "') AND callee in('" . $uid . "', '" . ltrim($phone, '0') . "') ORDER BY create_time DESC"; 
+
             $result = $this->cdr->fetchOne($sql);
             if ($result && count($result) > 0) {
-                return date('Y/m/d/', strtotime(substr($result['start_stamp'], 0, 10))) . $result['bleg_uuid'] . '.wav';
+                return $result['record'];
             }
         }
 

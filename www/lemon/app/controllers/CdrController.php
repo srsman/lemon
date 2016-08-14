@@ -80,14 +80,14 @@ class CdrController extends ControllerBase {
                     $uid = $user['uid'];
                     $report[$uid] = ['uid' => $uid, 'name' => $user['name'], 'icon' => $user['icon'], 'total' => 0, 'call_in' => 0, 'call_out' => 0, 'talktime' => 0];
                     foreach ($result as $data) {
-                        if ($data['caller_id_number'] == $uid || $data['destination_number'] == $uid) {
+                        if ($data['caller'] == $uid || $data['callee'] == $uid) {
                             $report[$uid]['total'] += 1;
-                            if ($data['caller_id_number'] == $uid) {
+                            if ($data['caller'] == $uid) {
                                 $report[$uid]['call_out'] += 1;
                             } else {
                                 $report[$uid]['call_in'] += 1;
                             }
-                            $report[$uid]['talktime'] += $data['billsec'];
+                            $report[$uid]['talktime'] += $data['duration'];
                         }
                     }
                 }

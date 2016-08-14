@@ -69,21 +69,21 @@
           <div class="form-group" style="margin-left:10px">
             <label>通话时长 </label>
             <select class="form-control input-sm" name="billsec" style="width:85px">
-              <option value="0"<?php if($where['billsec'] == 0) {echo 'selected="selected"';}?>>0分钟</option>
-              <option value="60"<?php if($where['billsec'] == 60) {echo 'selected="selected"';}?>>1分钟</option>
-              <option value="180"<?php if($where['billsec'] == 180) {echo 'selected="selected"';}?>>3分钟</option>
-              <option value="300"<?php if($where['billsec'] == 300) {echo 'selected="selected"';}?>>5分钟</option>
-              <option value="900"<?php if($where['billsec'] == 900) {echo 'selected="selected"';}?>>15分钟</option>
-              <option value="1800"<?php if($where['billsec'] == 1800) {echo 'selected="selected"';}?>>30分钟</option>
+              <option value="0"<?php if($where['duration'] == 0) {echo 'selected="selected"';}?>>0分钟</option>
+              <option value="60"<?php if($where['duration'] == 60) {echo 'selected="selected"';}?>>1分钟</option>
+              <option value="180"<?php if($where['duration'] == 180) {echo 'selected="selected"';}?>>3分钟</option>
+              <option value="300"<?php if($where['duration'] == 300) {echo 'selected="selected"';}?>>5分钟</option>
+              <option value="900"<?php if($where['duration'] == 900) {echo 'selected="selected"';}?>>15分钟</option>
+              <option value="1800"<?php if($where['duration'] == 1800) {echo 'selected="selected"';}?>>30分钟</option>
             </select>
           </div>
           <div class="form-group" style="margin-left:8px">
             <label>主叫: </label>
-            <input id="caller" type="text" class="form-control input-sm" name="caller" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['caller_id_number'])) {echo $where['caller_id_number'];}?>">
+            <input id="caller" type="text" class="form-control input-sm" name="caller" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['caller'])) {echo $where['caller'];}?>">
           </div>
           <div class="form-group" style="margin-left:8px">
             <label>被叫: </label>
-            <input id="called" type="text" class="form-control input-sm" name="called" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['destination_number'])) {echo $where['destination_number'];}?>">
+            <input id="called" type="text" class="form-control input-sm" name="called" style="width:120px;color:#666;font-size:13px;font-weight:bold" value="<?php if(isset($where['callee'])) {echo $where['callee'];}?>">
           </div>
           <button id="query" type="submit" class="btn btn-success btn-sm pull-right">查 询</button>
         </form>
@@ -95,6 +95,7 @@
               <th>记录编号</th>
               <th>主叫号码</th>
               <th>被叫号码</th>
+              <th>挂断原因</th>
               <th>通话时长</th>
               <th>通话开始时间</th>
               <th>录音试听</th>
@@ -107,12 +108,19 @@
             foreach ($cdrs as $cdr) {
               echo '<tr>',"\n";
               echo '<td>',$cdr['id'],'</td>',"\n";
-              echo '<td>',$cdr['caller_id_number'],'</td>',"\n";
-              echo '<td>',$cdr['destination_number'],'</td>',"\n";
-              echo '<td><span class="label label-default">',gmstrftime('%H:%M:%S', $cdr['billsec']),'</span></td>',"\n";
-              echo '<td>',substr($cdr['start_stamp'], 0, 19),'</td>',"\n";
-              echo '<td><a href="javascript:;" style="color:#337ab7" onClick="show(',"'",date('Y/m/d/', strtotime($cdr['start_stamp'])),$cdr['bleg_uuid'],'.wav',"'",')"><span class="glyphicon glyphicon-headphones"></span> 试 听</a></td>',"\n";
-              echo '<td><a href="/record/',date('Y/m/d/', strtotime($cdr['start_stamp'])),$cdr['bleg_uuid'],'.wav" style="color:#555555">本地下载</a></td>',"\n";
+              echo '<td>',$cdr['caller'],'</td>',"\n";
+              echo '<td>',$cdr['callee'],'</td>',"\n";
+              if ($cdr['hangup'] == 'caller') {
+                echo '<td>主叫挂断</td>';
+              } else if ($cdr['hangup'] == 'callee') {
+                echo '<td>被叫挂断</td>';
+              } else {
+                echo '<td>未知状态</td>';
+              }
+              echo '<td><span class="label label-default">',gmstrftime('%H:%M:%S', $cdr['duration']),'</span></td>',"\n";              
+              echo '<td>',substr($cdr['create_time'], 0, 19),'</td>',"\n";
+              echo '<td><a href="javascript:;" style="color:#337ab7" onClick="show(',"'",$cdr['record'],"'",')"><span class="glyphicon glyphicon-headphones"></span> 试 听</a></td>',"\n";
+              echo '<td><a href="/record/',$cdr['record'],'" style="color:#555555">本地下载</a></td>',"\n";
               echo '</tr>',"\n";
             }
           }

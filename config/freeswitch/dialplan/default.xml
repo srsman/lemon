@@ -100,14 +100,16 @@
       </condition>
       <condition field="${curl_response_data}" expression="^1$" break="on-true">
 	<action application="curl" data="http://127.0.0.1:8080/check/${destination_number}" inline="true"/>
-	<action application="set" data="called=${curl_response_data}" inline="true"/>
-	<action application="bridge_export" data="nolocal:bleg_uuid=${uuid}"/>
-	<action application="bridge_export" data="nolocal:accountcode=${accountcode}"/>
+	<action application="set" data="callee=${curl_response_data}" inline="true"/>
 	<action application="set" data="RECORD_ANSWER_REQ=true"/>
 	<action application="set" data="RECORD_STEREO=false"/>
 	<action application="record_session" data="$${recordings_dir}/${strftime(%Y/%m/%d}/${uuid}.wav"/>
 	<action application="set" data="call_timeout=60"/>
-        <action application="bridge" data="sofia/gateway/trunk.${accountcode}.gw/${called}"/>
+	<action application="bridge_export" data="rid=${uuid}"/>
+	<action application="bridge_export" data="caller=${caller_id_number}"/>
+	<action application="bridge_export" data="callee=${callee}"/>
+	<action application="bridge_export" data="company=${accountcode}"/>
+        <action application="bridge" data="sofia/gateway/trunk.${accountcode}.gw/${callee}"/>
 	<anti-action application="playback" data="$${sounds_dir}/info.wav"/>
 	<anti-action application="hangup"/>
       </condition>
@@ -127,9 +129,12 @@
       </condition>
       <condition field="destination_number" expression="^service$">
 	<action application="set" data="call_timeout=10"/>
-	<action application="set" data="bleg_uuid=${uuid}"/>
-        <action application="set" data="caller_id_name=${caller_id_number}"/>
-        <action application="set" data="cc_export_vars=call_timeout,bleg_uuid,caller_id_name,caller_id_number"/>
+	<action application="set" data="rid=${uuid}"/>
+        <action application="set" data="caller=${caller_id_number}"/>
+        <action application="set" data="company=${accountcode}"/>
+	<action application="set" data="origination_caller_id_name=${caller_id_number}"/>
+	<action application="set" data="origination_caller_id_number=${caller_id_number}"/>
+	<action application="set" data="cc_export_vars=call_timeout,rid,caller,company,origination_caller_id_number,origination_caller_id_name"/>
         <action application="curl" data="http://127.0.0.1:8080/data/${accountcode}/complete"/>
         <action application="callcenter" data="${accountcode}@queue"/>
       </condition>

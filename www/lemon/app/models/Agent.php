@@ -159,13 +159,14 @@ class Agent {
             return $result['cid_num'];
         }
 
-        $sql = "SELECT caller_id_number, destination_number FROM cdr WHERE billsec > 5 AND (caller_id_number = '" . $uid . "' OR destination_number = '" . $uid . "') ORDER BY start_stamp DESC";
+        $table = 'cdr_' . date('Ym');
+        $sql = "SELECT caller, callee FROM " . $table . " WHERE caller = '" . $uid . "' OR callee = '" . $uid . "' ORDER BY create_time DESC";
         $result = $this->cdr->fetchOne($sql);
         if ($result && count($result) > 0) {
-            if ($result['caller_id_number'] == $uid) {
-                return $result['destination_number'];
+            if ($result['caller'] == $uid) {
+                return $result['callee'];
             }
-            return $result['caller_id_number'];
+            return $result['caller'];
         }
 
         return '';

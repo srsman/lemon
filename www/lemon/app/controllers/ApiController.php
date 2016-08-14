@@ -271,7 +271,7 @@ class ApiController extends ControllerBase {
         return true;
     }
 
-    public function getRecordAction($phone = null) {
+    public function getRecordAction($uid = null, $phone = null) {
         if (!$this->acl->isAllowed($this->role, "Api", "getRecord")) {
             $this->response->setStatusCode(404, "Not Found")->sendHeaders();
             $this->response->setContentType('application/json')->sendHeaders();
@@ -279,9 +279,9 @@ class ApiController extends ControllerBase {
             return false;
         }
         
-        if ($phone != null) {
+        if ($uid && $phone) {
             $order = new Order($this);
-            $record = $order->get_orderRecord($this->user->company, $phone);
+            $record = $order->get_orderRecord($this->user->company, $uid, $phone);
             if ($record != null) {
                 echo $record;
                 return true;
