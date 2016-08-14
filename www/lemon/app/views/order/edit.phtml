@@ -120,7 +120,7 @@
     <script type="text/javascript" src="/js/layer.js"></script>
     <script type="text/javascript">
       reqwest({
-        url: '/api/getRecord/<?php echo $order['phone'];?>',
+        url: '/api/getRecord/<?php echo $order['creator'];?>/<?php echo $order['phone'];?>',
         method: 'get',
         success: function (resp) {
           $("#audio")[0].src = "/record/" + resp;
