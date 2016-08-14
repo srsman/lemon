@@ -16,7 +16,7 @@
       <!-- File logging -->
       <!-- Directory where to create the "json_cdr" directory used to store JSON CDRs. Leave empty for no file logging. -->
       <!-- Might be overriden by a channel variable "json_cdr_base". -->
-      <param name="log-dir" value="/tmp"/>
+      <param name="log-dir" value=""/>
       <!-- Whether to rotate file CDRs. -->
       <param name="rotate" value="false"/>
       
@@ -26,7 +26,7 @@
       <!-- Authentication scheme for the above URL. May be one of basic|digest|NTLM|GSS-NEGOTIATE|any-->
       <param name="auth-scheme" value="any"/>
       <!-- Credentials in the form  username:password  if auth-scheme is used. Leave empty for no authentication. -->
-      <param name="cred" value="string"/>
+      <param name="cred" value=""/>
       <!-- Whether to base64 encode the entire JSON document before POSTing it. -->
       <param name="encode" value="false"/>
       <!-- Number of retries in case of failure. Each specified URL is tried in turn. -->
@@ -37,7 +37,7 @@
       <param name="disable-100-continue" value="false"/>
       <!-- If web posting failed, the CDR is written to a file. -->
       <!-- Error log dir ("json_cdr" is appended). Up to 20 may be specified. Default to log-dir if none is specified. -->
-      <param name="err-log-dir" value="/tmp"/>
+      <param name="err-log-dir" value="/var/log"/>
       
       <!-- SSL options -->
       <param name="ssl-key-path" value=""/>
