@@ -69,12 +69,12 @@
           <div class="form-group" style="margin-left:10px">
             <label>通话时长 </label>
             <select class="form-control input-sm" name="billsec" style="width:85px">
-              <option value="0"<?php if($where['duration'] == 0) {echo 'selected="selected"';}?>>0分钟</option>
-              <option value="60"<?php if($where['duration'] == 60) {echo 'selected="selected"';}?>>1分钟</option>
-              <option value="180"<?php if($where['duration'] == 180) {echo 'selected="selected"';}?>>3分钟</option>
-              <option value="300"<?php if($where['duration'] == 300) {echo 'selected="selected"';}?>>5分钟</option>
-              <option value="900"<?php if($where['duration'] == 900) {echo 'selected="selected"';}?>>15分钟</option>
-              <option value="1800"<?php if($where['duration'] == 1800) {echo 'selected="selected"';}?>>30分钟</option>
+              <option value="0"<?php if(isset($where['duration']) && $where['duration'] == 0) {echo 'selected="selected"';}?>>0分钟</option>
+              <option value="60"<?php if(isset($where['duration']) && $where['duration'] == 60) {echo 'selected="selected"';}?>>1分钟</option>
+              <option value="180"<?php if(isset($where['duration']) && $where['duration'] == 180) {echo 'selected="selected"';}?>>3分钟</option>
+              <option value="300"<?php if(isset($where['duration']) && $where['duration'] == 300) {echo 'selected="selected"';}?>>5分钟</option>
+              <option value="900"<?php if(isset($where['duration']) && $where['duration'] == 900) {echo 'selected="selected"';}?>>15分钟</option>
+              <option value="1800"<?php if(isset($where['duration']) && $where['duration'] == 1800) {echo 'selected="selected"';}?>>30分钟</option>
             </select>
           </div>
           <div class="form-group" style="margin-left:8px">

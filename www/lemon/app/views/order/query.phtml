@@ -59,8 +59,8 @@
         <form class="form-inline" action="/order/query" role="form">
           <div class="form-group">
             <select id="sort" class="input-sm" name="sort">
-              <option value="1"<?php if ($where['sort'] == 1) {echo ' selected="selected"';} ?>>下单时间</option>
-              <option value="2"<?php if ($where['sort'] == 2) {echo ' selected="selected"';} ?>>审核时间</option>
+              <option value="1"<?php if (isset($where['sort']) && $where['sort'] == 1) {echo ' selected="selected"';} ?>>下单时间</option>
+              <option value="2"<?php if (isset($where['sort']) && $where['sort'] == 2) {echo ' selected="selected"';} ?>>审核时间</option>
             </select>
           </div>
           <div class="form-group">
@@ -74,11 +74,11 @@
             <label>状 态: </label>
             <select class="form-control input-sm" name="status" style="width:85px">
               <option value="0">全 部</option>
-              <option value="1"<?php if ($where['status'] == 1) {echo ' selected="selected"';} ?>>待审核</option>
-              <option value="2"<?php if ($where['status'] == 2) {echo ' selected="selected"';} ?>>已通过</option>
-              <option value="3"<?php if ($where['status'] == 3) {echo ' selected="selected"';} ?>>不通过</option>
-              <option value="4"<?php if ($where['status'] == 4) {echo ' selected="selected"';} ?>>已发货</option>
-              <option value="5"<?php if ($where['status'] == 5) {echo ' selected="selected"';} ?>>待 &nbsp&nbsp定</option>
+              <option value="1"<?php if (isset($where['status']) && $where['status'] == 1) {echo ' selected="selected"';} ?>>待审核</option>
+              <option value="2"<?php if (isset($where['status']) && $where['status'] == 2) {echo ' selected="selected"';} ?>>已通过</option>
+              <option value="3"<?php if (isset($where['status']) && $where['status'] == 3) {echo ' selected="selected"';} ?>>不通过</option>
+              <option value="4"<?php if (isset($where['status']) && $where['status'] == 4) {echo ' selected="selected"';} ?>>已发货</option>
+              <option value="5"<?php if (isset($where['status']) && $where['status'] == 5) {echo ' selected="selected"';} ?>>待 &nbsp&nbsp定</option>
             </select>
           </div>
           <div class="form-group" style="margin-left:6px">
