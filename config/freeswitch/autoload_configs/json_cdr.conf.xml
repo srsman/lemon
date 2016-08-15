@@ -16,7 +16,7 @@
       <!-- File logging -->
       <!-- Directory where to create the "json_cdr" directory used to store JSON CDRs. Leave empty for no file logging. -->
       <!-- Might be overriden by a channel variable "json_cdr_base". -->
-      <param name="log-dir" value=""/>
+      <param name="log-dir" value="/tmp"/>
       <!-- Whether to rotate file CDRs. -->
       <param name="rotate" value="false"/>
       
