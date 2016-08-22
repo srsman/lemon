@@ -18,7 +18,7 @@ class Cdr {
         if ($company_id > 0) {
             $where = $this->whereFilter($where);
             if ($where != null) {
-                $table = $this->tablePars($where['start']);
+                $table = 'cdr';
                 if ($this->isTableExist($table)) {
                     $sql = "SELECT * FROM " . $table . " WHERE";
                     if (isset($where['id'])) {
@@ -116,7 +116,7 @@ class Cdr {
         if ($company_id > 0) {
             $where = $this->forReportFilter($where);
             if ($where != null) {
-                $table = $this->tablePars($where['start']);
+                $table = 'cdr';
                 if ($this->isTableExist($table)) {
                     $sql = "SELECT caller, callee, duration FROM " . $table . " WHERE company = " . $company_id;
                     $sql .= " AND duration > 0";
