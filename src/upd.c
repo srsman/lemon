@@ -56,33 +56,28 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    /* number data filter database */
-    redisContext *chkdb = NULL;
-    if (check) {
-        chkdb = redis(CHKDB_HOST, CHKDB_PORT, NULL, CHKDB_NAME);
-    }
-
     /* local redis database */
     redisContext *db = redis("127.0.0.1", 6379, NULL, 0);
     if (!db) {
         return -1;
     }
 
+    /* number data filter database */
+    redisContext *chkdb = NULL;
+    if (check) {
+        chkdb = redis(CHKDB_HOST, CHKDB_PORT, NULL, CHKDB_NAME);
+    }
+
     /* check task id */
     if (!is_task_exist(db, task)) {
-        redisFree(db);
-        return -1;
+        goto end;
     }
     
     /* file processing */
     FILE *fp = NULL;
     fp = fopen(file, "r");
     if (fp == NULL) {
-        redisFree(db);
-        if (chkdb) {
-            redisFree(chkdb);
-        }
-        return -1;
+        goto end;
     }
 
     int i = 0;
@@ -118,7 +113,8 @@ int main(int argc, char *argv[]) {
     if (reply != NULL) {
         freeReplyObject(reply);
     }
-        
+
+end:
     if (db) {
         redisFree(db);
     }
