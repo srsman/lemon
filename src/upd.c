@@ -79,6 +79,9 @@ int main(int argc, char *argv[]) {
     fp = fopen(file, "r");
     if (fp == NULL) {
         redisFree(db);
+        if (chkdb) {
+            redisFree(chkdb);
+        }
         return -1;
     }
 
