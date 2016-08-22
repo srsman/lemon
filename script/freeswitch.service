@@ -1,11 +1,20 @@
 [Unit]
 Description=FreeSWITCH
-After=syslog.target network.target
-After=postgresql.service
+After=syslog.target network.target postgresql.service
 
 [Service]
 User=apache
-LimitNOFILE=102400
+Group=apache
+LimitCORE=infinity
+LimitNOFILE=100000
+LimitNPROC=60000
+LimitSTACK=250000
+LimitRTPRIO=infinity
+LimitRTTIME=7000000
+IOSchedulingClass=realtime
+IOSchedulingPriority=2
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=89
 WorkingDirectory=/var/freeswitch
 ExecStart=/usr/local/freeswitch/bin/freeswitch -nc -nf -nonat
 ExecStop=/usr/local/freeswitch/bin/freeswitch -stop
