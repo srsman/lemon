@@ -72,7 +72,7 @@ class Order {
             $uid = $this->filter->sanitize($uid, 'alphanum');
             $phone = $this->filter->sanitize($phone, 'alphanum');
 
-            $table = 'cdr_' . date('Ym');
+            $table = 'cdr';
             $sql = "SELECT record FROM " . $table . " WHERE company = " . $company_id . " AND caller in('" . $uid . "', '" . ltrim($phone, '0') . "') AND callee in('" . $uid . "', '" . ltrim($phone, '0') . "') ORDER BY create_time DESC"; 
 
             $result = $this->cdr->fetchOne($sql);

@@ -159,7 +159,7 @@ class Agent {
             return $result['cid_num'];
         }
 
-        $table = 'cdr_' . date('Ym');
+        $table = 'cdr';
         $sql = "SELECT caller, callee FROM " . $table . " WHERE caller = '" . $uid . "' OR callee = '" . $uid . "' ORDER BY create_time DESC";
         $result = $this->cdr->fetchOne($sql);
         if ($result && count($result) > 0) {
