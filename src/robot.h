@@ -15,6 +15,7 @@
 
 typedef struct {
     int daemon;
+    int tran;
     char *conf_file;
     int company_id;
 } global_t;

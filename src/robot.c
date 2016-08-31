@@ -21,17 +21,20 @@ global_t args;
 int main(int argc, char *argv[]) {
     /* analysis of command line parameters */
     args.daemon = 0;
+    args.tran = 0;
     args.conf_file = "/etc/config.conf";
     args.company_id = 0;
 
     int opt = 0;
-    char *optstring = "df:c:";
+    char *optstring = "dtf:c:";
     opt = getopt(argc, argv, optstring);
     while (opt != -1) {
         switch (opt) {
         case 'd':
             args.daemon = 1;
             break;
+        case 't':
+            args.tran = 1;
         case 'f':
             args.conf_file = optarg;
             break;
@@ -462,8 +465,10 @@ int work_type_auto(PGconn *conn, redisContext *db, conf_t *conf, company_t *comp
         count = get_number(db, task->id, &number, num);
         if (count > 0) {
             /* number rewriting processing */
-            number_prefix_process(&number, count);
-
+            if (args.tran) {
+                number_prefix_process(&number, count);
+            }
+            
             /* initialize event socket connection */
             esl_handle_t esl = {{0}};
             esl_connect(&esl, conf->esl.host, conf->esl.port, NULL, conf->esl.password);
