@@ -518,8 +518,10 @@ int work_type_fixed(PGconn *conn, redisContext *db, conf_t *conf, company_t *com
         count = get_number(db, task->id, &number, num);
         if (count > 0) {
             /* number rewriting processing */
-            number_prefix_process(&number, count);
-
+            if (args.tran) {
+                number_prefix_process(&number, count);
+            }
+            
             /* initialize event socket connection */
             esl_handle_t esl = {{0}};
             esl_connect(&esl, conf->esl.host, conf->esl.port, NULL, conf->esl.password);
