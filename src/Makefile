@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=gnu99 -Wall -pedantic
 INCLUDE = -I /usr/include -I /usr/local/include
 BASE = /root/lemon
-ESLPATH = $(BASE)/freeswitch-1.6.9/libs/esl
+ESLPATH = $(BASE)/freeswitch-1.6.10/libs/esl
 
 all: upd robot check
 
