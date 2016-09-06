@@ -26,7 +26,7 @@ try {
     $loader->registerDirs(array(
         '../app/controllers/',
         '../app/models/',
-        '../app/library'
+        '../app/library/'
     ))->register();
 
     // Create a DI

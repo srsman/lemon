@@ -9,7 +9,7 @@ $loader = new Loader();
 
 $loader->registerDirs(
     array(
-        '../app/models'
+        '../app/models/'
     )
 )->register();
 
