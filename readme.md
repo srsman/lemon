@@ -101,7 +101,7 @@ $ systemctl start pgbouncer.service
 ```
 * 编译安装 FreeSWITCH
 ```shell
-$ wget http://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.9.tar.gz
+$ wget http://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.10.tar.gz
 $ cd freeswitch-1.6.8
 $ emacs modules.conf
 $ ./configure --disable-debug --disable-libyuv --disable-libvpx --enable-core-pgsql-support
