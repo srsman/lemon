@@ -135,3 +135,4 @@ github 下载地址: [freeswitch-sound-cn](https://github.com/log2k/freeswitch-s
 git clone https://github.com/log2k/freeswitch-sound-cn.git
 cp -R freeswitch-sound-cn /usr/local/freeswitch/sounds
 ```
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
